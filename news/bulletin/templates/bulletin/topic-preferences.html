@@ -1,0 +1,290 @@
+{% extends "base_common.html" %}
+
+{% block title %}
+Preferences
+{% endblock %}
+
+{% block head %}
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/prefs-styles.css' %}">
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="d-none d-md-block row align-items-end topbar mt-2 mr-0 pr-0">
+<div class="col-10 ml-4 mb-0 mt-1">
+<h5 style="margin-bottom:0.35rem">Preferences</h5>
+</div>
+</div>
+
+<div class="d-md-none row align-items-start">
+<div class="col-12 mt-2 pl-4 pr-4">
+<div class="row align-items-start">
+    <div class="col-3">
+        <div class="mob-prefs-header">
+            <p class="mb-1"><a href="{% url 'preferences' %}" class="mob-pref-link">General</a></p>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="mob-prefs-header curr-mob-pref-page">
+            <p class="mb-1"><a href="#" class="mob-pref-link">Alerts</a></p>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="mob-prefs-header">
+            <p class="mb-1"><a href="{% url 'sourceprefs' %}" class="mob-pref-link">Sources</a></p>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="mob-prefs-header">
+            <p class="mb-1"><a href="{% url 'widgetprefs' %}" class="mob-pref-link">Widgets</a></p>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+
+
+<div class="prefs-container">
+
+<div class="d-none d-md-flex row align-items-start prefs-topbar mt-2">
+    <div class="col-3 justify-items-center">
+        <div class="prefs-header">
+            <h3><a href="{% url 'preferences' %}" class="pref-link">General</a></h3>
+        </div>
+    </div>
+    <div class="col-3 justify-items-center">
+        <div class="prefs-header curr-pref-page">
+            <h3><a href="#" class="pref-link">Custom alerts</a></h3>
+        </div>
+    </div>
+    <div class="col-3 justify-items-center">
+        <div class="prefs-header">
+            <h3><a href="{% url 'sourceprefs' %}" class="pref-link">Sources</a></h3>
+        </div>
+    </div>
+    <div class="col-3 justify-items-center">
+        <div class="prefs-header">
+            <h3><a href="{% url 'widgetprefs' %}" class="pref-link">Widgets</a></h3>
+        </div>
+    </div>
+</div>
+
+{% if messages %}
+
+<ul class="messages mt-3 ml-0 pl-0">
+    {% for message in messages %}
+    <li{% if message.tags %} class="text-{{ message.tags }}"{% endif %}><strong>{{ message }}</strong></li>
+    {% endfor %}
+</ul>
+{% else %}
+<br>
+{% endif %}
+
+<a name="alert"></a>
+
+{% if topicwarn %}
+
+<ul class="messages ml-0 pl-0">
+    <li class="text-danger"><strong>Warning: You have custom alerts disabled in your category preferences. This means your custom alerts will not show up on the home page or in your daily emails.</strong></li>
+    <li class="text-danger"><strong>To turn custom alerts on, go to the <a class="text-danger" style="text-decoration:underline" href="{% url 'preferences' %}#categories">category preferences page</a>.</strong></li>
+</ul>
+
+<!--</div>-->
+
+<!--<div class="col-12 bg-danger pt-3 pb-1">-->
+<!--    <p class="text-white"><strong>Warning:</strong> You have custom alerts disabled in your category preferences. This means your custom alerts will not show up on the home page or in your daily emails.</p>-->
+<!--    <p class="text-white">To turn custom alerts on, go to the <a class="pref-btn-color" href="{% url 'preferences' %}#categories">category preferences</a> page.</p>-->
+<!--</div>-->
+
+<!--<div class="prefs-container">-->
+
+{% else %}
+{% endif %}
+
+<div class="row align-items-start">
+<div class="col-lg-9 col-12 pt-3 border-right-lg">
+
+
+<h3 class="story-head"><strong>Enter a new custom alert below:</strong></h3>
+
+<br>
+
+<form action="" method="post" novalidate>
+{% csrf_token %}
+<div class="row align-items-start">
+<div class="col-md-6 col-12 pr-3">
+<p><strong>Name:</strong></p>
+<small class="form-text text-muted">Enter a name for your custom alert.</small>
+<div class="mt-2 pr-4">
+{{ form.title }}
+</div>
+<p class="category-list mt-4"><strong>Categories to search:</strong></p>
+<small class="form-text text-muted">Select which categories to search for news items.</small>
+<div class="source-form mt-2 pr-4 mb-4">
+    {{ form.categories }}
+</div>
+</div>
+<div class="col-md-6 col-12 pr-3">
+
+
+<p><strong>Keywords to search:</strong></p>
+
+<small class="form-text text-muted mb-2">Enter the keywords you would like to search for this custom alert.<br>Add keywords with the button below.</small>
+<div class="col-6 ml-0 pl-0 mb-4">
+    <button class="btn btn-success add-form-row" name="addbutton">Add keyword</button>
+</div>
+{{ formset.management_form }}
+{% for form in formset %}
+<div class="row form-row mt-2 align-items-start">
+<div class="hidden">
+{{ form.DELETE }}
+</div>
+<div class="col-10">
+
+{{ form.keyword }}
+</div>
+<div class="col-2">
+    <button class="btn btn-danger remove-form-row" name="buttonname">-</button>
+</div>
+</div>
+
+{% endfor %}
+</div>
+
+</div>
+<br>
+<div class="row align-items-start pr-4">
+    <div class="col-lg-5 col-12 pl-0 mb-3 ml-3">
+        <button type="submit" class="btn btn-block new-btn">Save</button>
+    </div>
+    <div class="col-lg-5 col-12 pl-0 ml-3" style="display:inline-block">
+        <a href="{% url 'topicprefs' %}" role="button" class="btn btn-block cancel-btn">Cancel</a>
+    </div>
+</div>
+
+</form>
+
+<script>
+
+function changeButtons() {
+    var conditionRow = $('.form-row:not(:last)');
+    conditionRow.find('.btn.add-form-row')
+    .removeClass('btn-success').addClass('btn-danger')
+    .removeClass('add-form-row').addClass('remove-form-row')
+    .html('<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>');
+    return false;
+}
+
+function updateElementIndex(el, prefix, ndx) {
+    var id_regex = new RegExp('(' + prefix + '-\\d+)');
+    var replacement = prefix + '-' + ndx;
+    if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex, replacement));
+    if (el.id) el.id = el.id.replace(id_regex, replacement);
+    if (el.name) el.name = el.name.replace(id_regex, replacement);
+}
+function cloneMore(selector, prefix) {
+    var newElement = $(selector).clone(true);
+    newElement.removeClass("hidden");
+    var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
+    newElement.find(':input').each(function() {
+        var name = $(this).attr('name').replace('-' + (total-1) + '-', '-' + total + '-');
+        var id = 'id_' + name;
+        $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+    });
+    total++;
+    $('#id_' + prefix + '-TOTAL_FORMS').val(total);
+    $(selector).after(newElement)
+    var conditionRow = $('.form-row:not(:last)');
+    return false;
+}
+function deleteForm(prefix, btn) {
+    var total = $('.form-row:not(.hidden)').length;
+    if (total > 1){
+        var deleterow = btn.closest('.form-row');
+        deleterow.find('input:checkbox').prop('checked', true);
+        deleterow.find('input:checkbox').attr('value', 'on');
+        deleterow.addClass('hidden');
+        var forms = $('.form-row');
+        $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+        for (var i=0, formCount=forms.length; i<formCount; i++) {
+            $(forms.get(i)).find(':input').each(function() {
+                updateElementIndex(this, prefix, i);
+            });
+        }
+    }
+    return false;
+}
+$(document).on('click', '.add-form-row', function(e){
+    e.preventDefault();
+    cloneMore('.form-row:last', 'form');
+    return false;
+});
+$(document).on('click', '.remove-form-row', function(e){
+    e.preventDefault();
+    deleteForm('form', $(this));
+    return false;
+});
+
+$(function(){
+   changeButtons();
+});
+
+</script>
+
+
+<br>
+
+</div>
+
+<div class="col-lg-3 col-12 pl-4 pt-3 border-top-md">
+
+<h3 class="story-head"><strong>Edit your alerts:</strong></h3>
+<br>
+
+{% for topic in usertopics %}
+
+<div class="row align-items-middle">
+<div class="col-8">
+<p class="topic-name">{{ topic.title }}</p>
+</div>
+<div class="col-1 mr-2">
+<a class="topic-name" href="{{ topic.get_absolute_url }}#alert">
+<img src="{% static 'icons/edit.svg' %}" style="width:18px">
+</a>
+</div>
+<div class="col-1">
+<a href="{{ topic.get_delete_url }}" class="btn btn-danger" role="button" style="height:28px;width:23px;text-align:center">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="20px"
+    preserveAspectRatio="xMidYMid meet" viewBox="0 0 12 16"
+    style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);position:relative;top:-3px;left:-8px"
+    class="ml-auto mr-auto">
+    <path fill-rule="evenodd" d="M11 2H9c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1H2c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1v9c0 .55.45 1 1 1h7c.55 0 1-.45 1-1V5c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm-1 12H3V5h1v8h1V5h1v8h1V5h1v8h1V5h1v9zm1-10H2V3h9v1z" fill="#ffffff"/>
+    </svg>
+</a>
+
+</div>
+</div>
+{% empty %}
+<p><i>No current custom alerts to display</i></p>
+{% endfor %}
+</ul>
+</div>
+
+
+<br>
+
+
+</div>
+</div>
+
+<br>
+
+{% endblock %}

@@ -1,0 +1,313 @@
+{% extends "base_common.html" %}
+
+{% block title %}
+Preferences
+{% endblock %}
+
+{% block head %}
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/prefs-styles.css' %}">
+
+<link rel="stylesheet" href="{% static 'css/catorder-styles.css' %}">
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+
+<script src="https://SortableJS.github.io/Sortable/Sortable.js"></script>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="d-none d-md-block row align-items-end topbar mt-2 mr-0 pr-0">
+<div class="col-10 ml-4 mb-0 mt-1">
+<h5 style="margin-bottom:0.35rem">Preferences</h5>
+</div>
+</div>
+
+<div class="d-md-none row align-items-start">
+<div class="col-12 mt-2 pl-4 pr-4">
+<div class="row align-items-start">
+    <div class="col-3">
+        <div class="mob-prefs-header curr-mob-pref-page">
+            <p class="mb-1"><a href="#" class="mob-pref-link">General</a></p>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="mob-prefs-header">
+            <p class="mb-1"><a href="{% url 'topicprefs' %}" class="mob-pref-link">Alerts</a></p>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="mob-prefs-header">
+            <p class="mb-1"><a href="{% url 'sourceprefs' %}" class="mob-pref-link">Sources</a></p>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="mob-prefs-header">
+            <p class="mb-1"><a href="{% url 'widgetprefs' %}" class="mob-pref-link">Widgets</a></p>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+
+
+<div class="prefs-container">
+
+<div class="d-none d-md-flex row align-items-start prefs-topbar mt-2">
+    <div class="col-3 justify-items-center">
+        <div class="prefs-header curr-pref-page">
+            <h3><a href="#" class="pref-link">General</a></h3>
+        </div>
+    </div>
+    <div class="col-3 justify-items-center">
+        <div class="prefs-header">
+            <h3><a href="{% url 'topicprefs' %}" class="pref-link">Custom alerts</a></h3>
+        </div>
+    </div>
+    <div class="col-3 justify-items-center">
+        <div class="prefs-header">
+            <h3><a href="{% url 'sourceprefs' %}" class="pref-link">Sources</a></h3>
+        </div>
+    </div>
+    <div class="col-3 justify-items-center">
+        <div class="prefs-header">
+            <h3><a href="{% url 'widgetprefs' %}" class="pref-link">Widgets</a></h3>
+        </div>
+    </div>
+</div>
+
+{% if messages %}
+<div class="row align items-start">
+<div class="col-12 pl-2 pr-2">
+<ul class="messages mt-3 prefs-bucket ml-0 pl-0">
+    {% for message in messages %}
+    <li{% if message.tags %} class="text-{{ message.tags }}"{% endif %}><strong>{{ message }}</strong></li>
+    {% endfor %}
+</ul>
+</div>
+<div class="col-md-6 col-12 pl-2 pr-2">
+{% else %}
+<div class="row align-items-start mt-3">
+<div class="col-md-6 col-12 pl-2 pr-2">
+{% endif %}
+
+
+
+<!--<h3 class="story-head">Email address:</h3>    -->
+<form action="/beta/setaddress" method="post" novalidate>
+    {% csrf_token %}
+    <div class="prefs-fields">
+    {% include 'includes/form_error_validation.html' with form=addressform %}
+<!--    {{ addressform }}-->
+    <div class="col-xl-5 col-lg-6 col-12 pl-0">
+    <button type="submit" class="btn btn-block new-btn">Update email address</button>
+    </div>
+    </div>
+</form>
+
+<br>
+</div>
+
+<div class="col-md-6 col-12 pl-2 pr-2">
+
+<!--<h3 class="story-head">Timezone:</h3>-->
+
+<form action="/beta/preferences" method="post" novalidate>
+    {% csrf_token %}
+    <div class="prefs-fields">
+    {% include 'includes/form_error_validation.html' with form=tzform %}
+    <div class="col-xl-5 col-lg-6 col-12 pl-0">
+    <button type="submit" class="btn btn-block new-btn">Update timezone</button>
+    </div>
+    </div>
+
+</form>
+
+<br>
+</div>
+
+<a name="categories"></a>
+
+<div class="col-md-6 col-12 pl-2 pr-2 mt-2">
+
+<strong>News categories:</strong>
+<small class="form-text text-muted">Click to toggle a category on or off. Drag and drop to re-order.</small>
+
+<div class="mt-3">
+<form action="/beta/catorder" method="post">
+{% csrf_token %}
+<div id="catOrder" class="catprefs" style="width:65%">
+    {{ catform }}
+</div>
+<div class="prefs-fields">
+<div class="col-xl-5 col-lg-6 col-12 pl-0">
+    <button type="submit" class="btn btn-block new-btn">Save category order</button>
+</div>
+</div>
+</form>
+</div>
+<script>
+    // Sortable - for JS
+    Sortable.create(id_categories, { /* options */ });
+</script>
+
+<script>
+    // jQuery
+
+$('input:checkbox').filter(':checked').each(function(index) {
+    $(this).parent().parent().addClass("catchecked");
+});
+
+$(":checkbox").on('click', function(){
+    	$(this).parent().parent().toggleClass("catchecked");
+});
+
+</script>
+<br>
+
+</div>
+
+
+<div class="col-md-6 col-12 pl-2 pr-2 mt-2">
+<div class="row align-items-start">
+<div class="col-md-8 col-12">
+<strong>Email schedule:</strong>
+<small class="form-text text-muted">Note that emails will be sent in the timezone chosen above.</small>
+</div>
+<div class="col-md-4 col-6 mt-2 pr-4">
+<button type="submit" class="btn btn-block btn-success add-form-row">Add email</button>
+</div>
+</div>
+<br>
+
+<form action="/beta/preferences/email" class="form-horizontal" method="post">
+{% csrf_token %}
+{{ formset.management_form }}
+{% for form in formset %}
+<div class="row form-row spacer emailrow">
+    <div class="hidden">
+    {{form.DELETE}}
+    </div>
+    <div class="col-lg-4 col-5 emailformrows text-center-lg">
+        <label>{{form.day.label}}</label>
+    </div>
+    <div class="col-7 d-lg-none">
+
+    </div>
+    <div class="col-lg-3 col-5 emailformrows">
+        <div class="input-group">
+            {{form.day}}
+        </div>
+    </div>
+    <div class="col-1 emailformrows" style="text-align:center">
+        <label>{{form.time.label}}</label>
+    </div>
+    <div class="col-lg-3 col-4 emailformrows">
+        <div class="input-group">
+            {{form.time}}
+        </div>
+    </div>
+    <div class="col-1">
+        <button class="btn btn-danger remove-form-row pb-1" name="buttonname">-</button>
+    </div>
+</div>
+
+{% endfor %}
+<br>
+
+<div class="row align-items-start prefs-fields">
+    <div class="col-xl-5 col-lg-6 col-12 pl-3 pr-0 mb-3">
+        <button type="submit" class="btn btn-block new-btn">Save email schedule</button>
+    </div>
+    <!--<div class="col-6 pl-3 pr-0 mb-3">-->
+    <!--    <button type="submit" class="btn btn-block btn-success add-form-row">Add <span class="d-none d-lg-inline-block">another</span> email</button>-->
+    <!--</div>-->
+    <div class="col-xl-5 col-lg-6 col-12 pl-3 pr-0 mb-3">
+        <a href="{% url 'unsubscribe' %}" class="btn btn-block btn-danger" role="button">Unsubscribe</a>
+    </div>
+</div>
+</form>
+</div>
+
+<script>
+
+function changeButtons() {
+    var conditionRow = $('.form-row:not(:last)');
+    conditionRow.find('.btn.add-form-row')
+    .removeClass('btn-success').addClass('btn-danger')
+    .removeClass('add-form-row').addClass('remove-form-row')
+    .html('<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>');
+    return false;
+}
+
+function updateElementIndex(el, prefix, ndx) {
+    var id_regex = new RegExp('(' + prefix + '-\\d+)');
+    var replacement = prefix + '-' + ndx;
+    if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex, replacement));
+    if (el.id) el.id = el.id.replace(id_regex, replacement);
+    if (el.name) el.name = el.name.replace(id_regex, replacement);
+}
+function cloneMore(selector, prefix) {
+    var newElement = $(selector).clone(true);
+    newElement.removeClass("hidden");
+    var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
+    newElement.find(':input').each(function() {
+        var day = $(this).attr('name').replace('-' + (total-1) + '-', '-' + total + '-');
+        var id = 'id_' + day;
+        $(this).attr({'name': day, 'id': id}).val('').removeAttr('checked');
+    });
+    total++;
+    $('#id_' + prefix + '-TOTAL_FORMS').val(total);
+    $(selector).after(newElement)
+    var conditionRow = $('.form-row:not(:last)');
+    return false;
+}
+function deleteForm(prefix, btn) {
+    var total = $('.form-row:not(.hidden)').length;
+    if (total > 1){
+        var deleterow = btn.closest('.form-row');
+        deleterow.find('input:checkbox').prop('checked', true);
+        deleterow.find('input:checkbox').attr('value', 'on');
+        deleterow.addClass('hidden');
+        var forms = $('.form-row');
+        $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+        for (var i=0, formCount=forms.length; i<formCount; i++) {
+            $(forms.get(i)).find(':input').each(function() {
+                updateElementIndex(this, prefix, i);
+            });
+        }
+    }
+    return false;
+}
+$(document).on('click', '.add-form-row', function(e){
+    e.preventDefault();
+    cloneMore('.form-row:last', 'form');
+    return false;
+});
+$(document).on('click', '.remove-form-row', function(e){
+    e.preventDefault();
+    deleteForm('form', $(this));
+    return false;
+});
+
+$(function(){
+   changeButtons();
+});
+
+</script>
+
+<br>
+
+</div>
+
+
+</div
+
+<br>
+
+{% endblock %}

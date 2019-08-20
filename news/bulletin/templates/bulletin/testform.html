@@ -1,0 +1,66 @@
+{% extends "base_common.html" %}
+
+{% block head %}
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/catorder-styles.css' %}">
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+<script src="http://SortableJS.github.io/Sortable/Sortable.js"></script>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="col-md-6">
+
+<h3>Select your preferred news category order:</h3>
+<br>
+
+<form action="/bulletin/catorder" method="post">
+{% csrf_token %}
+<div id="catOrder" class="catprefs" style="width:50%">
+    {{ form }}
+<br>
+<input type="submit" value="Save my category order"> 
+</div>
+</form>
+
+<script>
+    // Sortable - for JS
+    Sortable.create(id_categories, { /* options */ });
+</script>
+
+<script>
+    // jQuery 
+
+$('input:checkbox').filter(':checked').each(function(index) {
+    $(this).parent().parent().addClass("catchecked");
+});
+    
+$(":checkbox").on('click', function(){
+    	$(this).parent().parent().toggleClass("catchecked");
+});
+    
+</script>
+ <br>
+</div>
+
+{% endblock %}
+
+
+<!--
+<div id="catOrder" style="width:50%">
+    
+<select name="categories">
+    <li class="cat-preference" style="display:none"><input type="checkbox" value="Dummy" style="display:none"></li>
+    {% for cat in categories %}
+        
+    <li class="cat-preference"><input type="checkbox" value="{{cat.category}}"> {{ cat.category }}</li>
+    
+    {% endfor %}
+</select>
+</div>-->

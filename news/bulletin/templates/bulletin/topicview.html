@@ -1,0 +1,136 @@
+{% extends "base_common.html" %}
+
+{% block title %}
+Custom alerts
+{% endblock %}
+
+{% block head %}
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/prefs-styles.css' %}">
+<link rel="stylesheet" href="{% static 'css/sticky-footer.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+<!--Container for overall page-->
+
+
+<!--Container for overall news-->
+
+<div class="topbar mt-2 mr-0 pr-0">
+<div class="container-fluid">
+<div class="row align-items-end">
+<div class="col-5 col-lg-4 pl-4 mb-0">
+{% load tz %} {% timezone tzone %}
+<h5 class="mt-0" style="margin-bottom:0.33rem">Your custom alerts: {{ date|date }}, <span class="nobr">{{ time|time }}</span> {{tz_name}} <span class="d-none d-lg-inline">edition</span></h5>
+{% endtimezone %}
+</div>
+<div class="col-7 col-lg-8">
+<div class="row justify-content-center mt-1 mb-1">
+{% for topic in usertopics %}
+    <div class="category-link pl-2 pr-2">
+    <a href='#{{ topic.title }}'>{{ topic.title }}</a>
+    </div>
+{% endfor %}
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<div class="container-fluid">
+
+<div class="col-lg-10 col-12 mt-2 mr-0 ml-0">
+
+
+
+{% if topicformat %}
+
+    <!--Repeats for all categories -->
+
+{% for storylist, topic in topiczip %}
+
+    <a name='{{ topic.title }}'></a>
+    <div class="col-lg-5 col-md-6 col-12 mb-1 pl-0 ml-0">
+    <!--style="background-color:#130f40" header-->
+    <h3 class="admin-header">{{topic.title}}</h3>
+    </div>
+
+    <div class="row align-items-start">
+
+{% if storylist.0 %}
+
+<!--    Secondary stories laid out in grid format-->
+
+    {% for itemlist in storylist %}
+
+<!--    Secondary story containers-->
+
+    <div class="col-md-6 col-12 pl-3 pr-3">
+<!--   secondary_story-->
+
+    {% if itemlist.0 %}
+
+<!--        Secondary story title, tagline, image, etc.-->
+
+    <h4><a href="{{ itemlist.0.link }}" class="story-lead">{{ itemlist.0.title }}</a></h4>
+
+    <p class="story-tagline">{{ itemlist.0.slug }}</p>
+
+    <img src="{{ itemlist.0.top_image }}" alt="" width="100%">
+
+    <p class="image_caption text-muted">Source: {{ itemlist.0.newsource.source }}</p>
+
+        {% for relatedstory in itemlist.1 %}
+
+    <p class="related_story pl-0 ml-0"><a href="{{ relatedstory.link }}" class="related_link">{{ relatedstory.title }}</a><span class="text-muted">&ensp;{{ relatedstory.source }}</span></p>
+
+        {% empty %}
+        <p class="related_story pl-0 ml-0"><span class="text-muted">No related items found for this story.</span></p>
+        {% endfor %}
+
+    {% else %}
+
+    {% endif %}
+
+    <br>
+
+    </div>
+
+    {% empty %}
+
+    {% endfor %}
+
+{% else %}
+<div class="col-12">
+ <p class="text-muted mt-3 mb-5">No items were found for this alert in your selected sources. You can <a class="pref-btn-color" href="{{ topic.get_absolute_url }}#topic">edit your preferences for this alert here.</a></p>
+</div>
+
+{% endif %}
+
+</div>
+
+{% endfor %}
+
+
+{% else %}
+    <p>An error occured.</p>
+{% endif %}
+
+<br>
+
+</div>
+
+
+<!--ads on this page?-->
+
+</div>
+
+
+
+{% endblock %}

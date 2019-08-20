@@ -1,0 +1,102 @@
+<head>
+
+<style type="text/css">
+@media screen {
+@font-face {
+  font-family: 'Crimson Text';
+  font-style: normal;
+  font-weight: 600;
+  src:   url(https://fonts.gstatic.com/l/font?kit=wlppgwHKFkZgtmSR3NB0oRJXsCx2DtlX1LB1CYqOImgEprqmVECTOaqthmnoMc9VYRX77tpQKlkQ9izLgEJvecPwUQ371tToPTvB0tP4WgyqSQz_J5TXZKvCZ8WTanffnPDbvnnjxi-FNhlmifH3kU-tmI9vG2xTHYros7uHMamAj1zr96ujo3G2r0ZKFCaNrq4&skey=8d0e5c65248ec1b9&v=v9) format('woff2');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src:   url(https://fonts.gstatic.com/s/roboto/v19/KFOmCnqEu92Fr1Mu72xKKTU1Kvnz.woff2) format('woff2');
+  /*unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;*/
+}
+}
+</style>
+
+</head>
+
+<body>
+
+<div style="width:100%;padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto">
+
+<div style="margin-top:5%;padding-left:8%;padding-right:8%">
+
+<div style="margin-bottom:1.5%;background-color:#130f40">
+    <h2 style="color: white;font-family:Crimson Text,Garamond,serif;font-weight: 600;padding-left: 0.3em;padding-top: 0;padding-bottom: 0.2em;">Please verify your email</h2>
+</div>
+
+<!--<h1 style="font-family:Crimson Text, serif; font-weight: 600; margin-bottom:7%;color:#130f40">Please verify your email address</h1>-->
+
+<p style="font-family:Roboto,sans-serif;margin-top:2%;margin-bottom:2%;margin-left:0%;padding-left: 0px;color:black">Hi {{ user.username }},</p>
+<br>
+<p style="font-family:Roboto,sans-serif;margin-top:2%;margin-bottom:2%;margin-left:0%;padding-left: 0px;color:black">Thanks for signing up for Quota! Please <a style="color:#22a6b3" href="http://{{ domain }}{% url 'activate' uidb64=uid token=token %}">click here</a> to confirm your email address. (If that doesn't work, you can try copying the link below into your browser.)</p>
+<p style="font-family:Roboto,sans-serif;margin-top:2%;margin-bottom:2%;margin-left:0%;padding-left: 0px;"><a style="color:#22a6b3" href="http://{{ domain }}{% url 'activate' uidb64=uid token=token %}">http://{{ domain }}{% url 'activate' uidb64=uid token=token %}</a></p>
+<br>
+<p style="font-family:Roboto,sans-serif;margin-top:2%;margin-bottom:2%;margin-left:0%;padding-left: 0px;color:black">&mdash;Your friends at Quota</p>
+
+<br>
+<br>
+
+<table style=“margin-top:0px;padding-left:0px;padding-right:0px;margin-left:0px;margin-right:0px;background-color:#0f1f40;width:100%;text-align:center;”>
+<tr>
+<td style=“text-align:center;padding-top:0.8em;”><a style="font-family:'Roboto',sans-serif;color:white;text-decoration:none;text-align:center" href="https://www.quotanews.com/beta">Full website</a></td>
+<td style=“text-align:center;padding-top:0.8em;”><a style="font-family:'Roboto',sans-serif;color:white;text-decoration:none;text-align:center" href="https://www.quotanews.com/unsubscribe">Unsubscribe</a></td>
+</tr>
+<tr>
+<td style=“text-align:center;padding-top:0.4em;padding-bottom:0.8em;”><a style="font-family:'Roboto',sans-serif;color:white;text-decoration:none;text-align:center" href="https://www.quotanews.com/beta/about">About Quota</a></td>
+<td style=“text-align:center;padding-top:0.4em;padding-bottom:0.8em;”><a style="font-family:'Roboto',sans-serif;color:white;text-decoration:none;text-align:center" href="https://www.quotanews.com/beta/preferences">Preferences</a></td>
+</tr>
+</table>
+
+<table style="padding-top:0.2em;padding-bottom:0px;margin-bottom:0px;background-color:#0f1f40;color:white;border:1px white;border-style: solid none none none;font-size: 1em;width:100%;text-align:center">
+<tr>
+<td style="text-align:center;padding-top:0.8em;padding-bottom:0.8em;color:white;font-family:'Roboto',sans-serif;">Quota is made by Bulletyn, LLC&emsp;&bull;&emsp;2019</td>
+</tr>
+</table>
+
+<!--<footer style="background-color:#130f40;color:white;text-align:center;width:100%;padding-left:0px;padding-right:0px;margin-left:0px;margin-right:0px;">-->
+<!--    <div style="background-color:#130f40;width:100%;padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto">-->
+<!--        <div style="display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-align:start!important;-ms-flex-align:start!important;align-items:flex-start!important;margin-bottom:0!important">-->
+<!--            <div style="position:relative;width:45%;display:inline-block;min-height:1px;padding-right:15px;padding-left:15px;margin-bottom:0!important">-->
+<!--            <ul style="padding-left:0;list-style:none">-->
+<!--              <li>-->
+<!--                <a style="color:white;text-decoration:none" href="https://www.quotanews.com/beta">Full website</a>-->
+<!--              </li>-->
+<!--              <li style="margin-top:0.5rem;">-->
+<!--                <a style="color:white;text-decoration:none" href="https://www.quotanews.com/beta/about">About Quota</a>-->
+<!--              </li>-->
+<!--            </ul>-->
+<!--            </div>-->
+
+<!--            <div style="position:relative;width:45%;display:inline-block;min-height:1px;padding-right:15px;padding-left:15px;margin-bottom:0!important">-->
+<!--            <ul style="padding-left:0;list-style:none">-->
+<!--              <li>-->
+<!--                <a style="color:white;text-decoration:none" href="https://www.quotanews.com/unsubscribe">Unsubscribe</a>-->
+<!--              </li>-->
+<!--              <li style="margin-top:0.5rem;">-->
+<!--                <a style="color:white;text-decoration:none" href="https://www.quotanews.com/beta/preferences">Preferences</a>-->
+<!--              </li>-->
+<!--            </ul>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div style="padding-top: 1px;padding-bottom: 1px;background-color: #130f40;color: white;border: 1px white;border-style: solid none none none;font-size: 1em;">-->
+<!--            <p style="padding-top:.25rem!important">Bulletyn, LLC&emsp;&bull;&emsp;2019</p>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</footer>-->
+
+
+</body>
+
+<!--{% autoescape off %}-->
+<!--Hi {{ user.username }},-->
+
+<!--Please click on the link below to confirm your registration:-->
+
+<!--http://{{ domain }}{% url 'activate' uidb64=uid token=token %}-->
+<!--{% endautoescape %}-->

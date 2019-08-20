@@ -1,0 +1,149 @@
+{% extends "base_common.html" %}
+
+{% block title %}
+Preferences
+{% endblock %}
+
+{% block head %}
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/prefs-styles.css' %}">
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="d-none d-md-block row align-items-end topbar mt-2 mr-0 pr-0">
+<div class="col-10 ml-4 mb-0 mt-1">
+<h5 style="margin-bottom:0.35rem">Preferences</h5>
+</div>
+</div>
+
+<div class="d-md-none row align-items-start">
+<div class="col-12 mt-2 pl-4 pr-4">
+<div class="row align-items-start">
+    <div class="col-3">
+        <div class="mob-prefs-header">
+            <p class="mb-1"><a href="{% url 'preferences' %}" class="mob-pref-link">General</a></p>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="mob-prefs-header">
+            <p class="mb-1"><a href="{% url 'topicprefs' %}" class="mob-pref-link">Alerts</a></p>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="mob-prefs-header curr-mob-pref-page">
+            <p class="mb-1"><a href="#" class="mob-pref-link">Sources</a></p>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="mob-prefs-header">
+            <p class="mb-1"><a href="{% url 'widgetprefs' %}" class="mob-pref-link">Widgets</a></p>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+
+
+<div class="prefs-container">
+
+<div class="d-none d-md-flex row align-items-start prefs-topbar mt-2">
+    <div class="col-3 justify-items-center">
+        <div class="prefs-header">
+            <h3><a href="{% url 'preferences' %}" class="pref-link">General</a></h3>
+        </div>
+    </div>
+    <div class="col-3 justify-items-center">
+        <div class="prefs-header">
+            <h3><a href="{% url 'topicprefs' %}" class="pref-link">Custom alerts</a></h3>
+        </div>
+    </div>
+    <div class="col-3 justify-items-center">
+        <div class="prefs-header curr-pref-page">
+            <h3><a href="#" class="pref-link">Sources</a></h3>
+        </div>
+    </div>
+    <div class="col-3 justify-items-center">
+        <div class="prefs-header">
+            <h3><a href="{% url 'widgetprefs' %}" class="pref-link">Widgets</a></h3>
+        </div>
+    </div>
+</div>
+
+{% if messages %}
+
+<ul class="messages mt-3 text-success ml-0 pl-0">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}><strong>{{ message }}</strong></li>
+    {% endfor %}
+</ul>
+{% else %}
+<br>
+{% endif %}
+
+<strong>Source preferences:</strong>
+<small class="form-text text-muted">Select which sources you would like to receive news from.</small>
+<small class="form-text text-muted">News categories you have currently selected have green headings. To change your category settings, go to the <a class="text-muted" style="text-decoration:underline" href="{% url 'preferences' %}#categories">category preferences page</a>.</small>
+
+<br>
+
+<form action="/beta/preferences/sources" method="post">
+{% csrf_token %}
+<!--
+    <div class="prefs-button">
+<button type="submit" class="btn btn-block new-btn">Save my sources</button>
+    </div>
+
+-->
+
+<div class="row align-items-start">
+
+{% for form, cat in formcatlist %}
+
+
+<div class="source-form col-lg-3 col-md-4 col-sm-6 col-12">
+
+<h4 class="user-cat-head pb-2 pl-2 pr-2 mb-2">{{ cat }}</h4>
+
+
+{{ form }}
+
+<br>
+</div>
+
+{% endfor %}
+
+{% for form, cat in formotherlist %}
+
+<div class="source-form col-lg-3 col-md-4 col-sm-6 col-12">
+
+<h4 class="other-cat-head pb-2 pl-2 pr-2 mb-2">{{ cat.category }}</h4>
+
+{{ form }}
+
+<br>
+</div>
+
+{% endfor %}
+
+</div>
+
+<div class="col-xl-5 col-lg-6 col-12 pl-0">
+<button type="submit" class="btn btn-block new-btn">Save my sources</button>
+    </div>
+
+
+</form>
+
+
+<br>
+</div>
+
+{% endblock %}

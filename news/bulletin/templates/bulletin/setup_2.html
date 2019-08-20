@@ -1,0 +1,81 @@
+{% extends "base_common.html" %}
+
+{% block title %}
+Welcome to Quota
+{% endblock %}
+
+{% block head %}
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/prefs-styles.css' %}">
+
+<link rel="stylesheet" href="{% static 'css/sticky-footer.css' %}">
+
+<link rel="stylesheet" href="{% static 'css/catorder-styles.css' %}">
+
+<script src="https://SortableJS.github.io/Sortable/Sortable.js"></script>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="col-md-6 offset-md-3 col-12">
+    <div class="top-title mb-4">
+  <h3 class="admin-header">Quota setup - step 2</h3>
+        </div>
+    <p class="text-spaced">Next, select which news categories you want to see, and what order you'd like to view them in.
+    Click on a category to toggle it on or off, and drag and drop categories to reorder them.</p>
+    <p class="text-spaced">When you're done, click the 'Next' button to move on to the last step.</p>
+
+<div class="form-container mt-5">
+
+<form action='' method='post' novalidate>
+
+{% csrf_token %}
+<p><strong>News categories:</strong></p>
+<div id="catOrder" class="catprefs" style="width:64%; margin-left:15%">
+    {{ form }}
+</div>
+
+<br>
+<div class="row align-items-start">
+<div class="col-3 mr-0 pr-0">
+    <a role="button" class="btn btn-block cancel-btn" href="{% url 'setup1' %}">Back</a>
+</div>
+<div class="col-md-3 col-6">
+    <a role="button" class="btn btn-block cancel-btn" href="{% url 'index' %}">Finish later</a>
+</div>
+<div class="col-md-3 d-md-inline-block d-none">
+</div>
+<div class="col-md-3 col-3 ml-0 pl-0">
+    <button type="submit" class="btn btn-block new-btn">Next</button>
+</div>
+</div>
+</form>
+
+</div>
+
+<script>
+    // Sortable - for JS
+    Sortable.create(id_categories, { /* options */ });
+</script>
+
+<script>
+    // jQuery
+
+$('input:checkbox').filter(':checked').each(function(index) {
+    $(this).parent().parent().addClass("catchecked");
+});
+
+$(":checkbox").on('click', function(){
+    	$(this).parent().parent().toggleClass("catchecked");
+});
+
+</script>
+
+</div>
+<br>
+<br>
+
+{% endblock %}

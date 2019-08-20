@@ -1,0 +1,29 @@
+{% extends "base_common.html" %}
+
+{% block title %}Quota{% endblock %}
+
+{% block head %}
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/sticky-footer.css' %}">
+<link rel="stylesheet" href="{% static 'css/prefs-styles.css' %}">
+
+
+{% endblock %}
+
+{% block content %}
+
+<div class="col-md-6 offset-md-3 col-12">
+    <div class="col-12 mt-4">
+  <h3 class="admin-header">Activation invalid</h3>
+        </div>
+    <div class="col-12">
+        <br>
+    <p class="mt-2"><span class="text-danger"><strong>Your activation link is invalid.</strong></span> The link may be expired, or you may have clicked on a link that was forwarded from someone else. Please try again.</p>
+    </div>
+</div>
+
+<br>
+
+{% endblock %}

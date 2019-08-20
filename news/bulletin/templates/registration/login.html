@@ -1,0 +1,55 @@
+{% extends "base_common.html" %}
+
+{% block title %}Quota - Login{% endblock %}
+
+{% block head %}
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/prefs-styles.css' %}">
+<link rel="stylesheet" href="{% static 'css/sticky-footer.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+<div class="col-md-6 offset-md-3 col-10 offset-1">
+<div class="top-title">
+<h3 class="admin-header">Login</h3>
+</div>
+
+<!--<div class="top-title row align-items-center" style="height:34px; background-color:#0f1f40;">-->
+<!--<h3 class="admin-header-test">Login</h3>-->
+<!--</div>-->
+
+<div style="margin-top:3rem;">
+<form method="post" action="" novalidate>
+
+{% csrf_token %}
+
+{% include 'includes/form_error_validation.html' with form=form %}
+
+<div class="row align-items-start" style="margin-top:2rem;">
+<div class="col-sm-6 col-12 mb-3" style="display:inline-block">
+    <button class="btn btn-block new-btn">Log in</button>
+</div>
+<div class="col-sm-6 col-12 mb-3" style="display:inline-block">
+    <a class="btn btn-block faded-danger" href="{% url 'password_reset' %}" role='button'>Forgot password</a>
+</div>
+</div>
+</form>
+</div>
+
+<div style="margin-top:2rem;">
+<strong>Don't have an account yet?</strong>
+<div class="row">
+<div class="col-sm-6 col-12 mt-2" style="display:inline-block">
+    <a class="btn btn-block btn-success" href="{% url 'signup' %}" role='button'>Sign up for free</a>
+</div>
+</div>
+</div>
+
+</div>
+<br>
+<br>
+{% endblock %}

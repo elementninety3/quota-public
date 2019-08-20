@@ -1,0 +1,51 @@
+{% extends "base_common.html" %}
+
+{% block title %}
+Welcome to Quota
+{% endblock %}
+
+{% block head %}
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/prefs-styles.css' %}">
+
+<link rel="stylesheet" href="{% static 'css/sticky-footer.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+<div class="col-md-6 offset-md-3 col-12">
+    <div class="top-title mb-4">
+  <h3 class="admin-header">Welcome to Quota!</h3>
+        </div>
+    <p class="text-spaced">Congratulations on your new account! Now, in three short steps, we'll help you get the most out of Quota by personalizing your experience. (You can also access these settings later on the preferences page.)</p>
+    <p class="text-spaced">First, select your timezone from the dropdown list below. Click the 'Next' button when you're ready to move on.</p>
+<div class="form-container mt-5">
+
+<form action='' method='post' novalidate>
+
+{% csrf_token %}
+{% include 'includes/form_error_validation.html' with form=form %}
+
+<br>
+
+<div class="row align-items-start">
+<div class="col-md-3 col-6">
+    <a role="button" class="btn btn-block cancel-btn" href="{% url 'index' %}">Finish later</a>
+</div>
+<div class="col-md-6 d-md-inline-block d-none">
+</div>
+<div class="col-md-3 col-6">
+    <button type="submit" class="btn btn-block new-btn" href="{% url 'setup2' %}">Next</button>
+    </div>
+</div>
+</form>
+
+</div>
+
+</div>
+<br>
+<br>
+{% endblock %}

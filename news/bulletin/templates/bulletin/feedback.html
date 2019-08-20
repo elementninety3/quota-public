@@ -1,0 +1,52 @@
+{% extends "base_common.html" %}
+
+{% block title %}
+Contact us
+{% endblock %}
+
+{% block head %}
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/prefs-styles.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+<div class="col-md-6 offset-md-3 col-12">
+    <div class="mb-3 top-title">
+  <h3 class="admin-header">Contact us</h3>
+        </div>
+    <div style="margin-top:2rem;">
+    <p>We'd love to hear from you about how we could improve Quota, or about any features you particularly like. Please enter your email address and message below, and someone will reply if appropriate.</p>
+    </div>
+
+{% if messages %}
+<ul class="messages mt-3 prefs-bucket text-success ml-0 pl-0">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}><strong>{{ message }}</strong></li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<div class="form-container" style="margin-top:2rem;">
+
+<form action='' method='post' novalidate>
+
+{% csrf_token %}
+{% include 'includes/form_error_validation.html' with form=form %}
+
+<div class="prefs-button" style="margin-top:2rem;">
+    <button type="submit" class="btn btn-block new-btn">Send</button>
+    </div>
+
+</form>
+
+</div>
+
+</div>
+<br>
+<br>
+<br>
+{% endblock %}

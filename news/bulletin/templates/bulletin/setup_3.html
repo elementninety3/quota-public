@@ -1,0 +1,161 @@
+{% extends "base_common.html" %}
+
+{% block title %}
+Welcome to Quota
+{% endblock %}
+
+{% block head %}
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/prefs-styles.css' %}">
+<link rel="stylesheet" href="{% static 'css/sticky-footer.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+<div class="col-md-6 offset-md-3 col-12">
+    <div class="top-title mb-4">
+  <h3 class="admin-header">Quota setup - step 3</h3>
+        </div>
+    <p class="text-spaced">Finally, use the tool below to tell us when you want to recieve email bulletins. Select a day and time using the dropdowns, and click on the "Add Email" button to add another row.</p>
+    <p class="text-spaced">If you want to get an email at the same time every day, you can select the "Every Day" option in the day dropdown. There is also a "Weekdays" option available.</p>
+    <p class="text-spaced">When you're ready, click the 'Finish' button - you're all done!</p>
+
+<div class="form-container mt-5">
+<div class="row align-items-start">
+<div class="col-md-8 col-12">
+<strong>Email schedule:</strong>
+<small class="form-text text-muted">Emails will be sent in the timezone chosen in step 1.</small>
+</div>
+<div class="col-md-4 col-6 mt-2 pr-4">
+<button type="submit" class="btn btn-block btn-success add-form-row">Add email</button>
+</div>
+</div>
+<br>
+<form action='' method='post' novalidate>
+{% csrf_token %}
+{{ formset.management_form }}
+{% for form in formset %}
+<div class="row form-row spacer emailrow">
+    <div class="hidden">
+    {{form.DELETE}}
+    </div>
+    <div class="col-lg-4 col-5 emailformrows text-center-lg">
+        <label>{{form.day.label}}</label>
+    </div>
+    <div class="col-7 d-lg-none">
+
+    </div>
+    <div class="col-lg-3 col-5 emailformrows">
+        <div class="input-group">
+            {{form.day}}
+        </div>
+    </div>
+    <div class="col-1 emailformrows" style="text-align:center">
+        <label>{{form.time.label}}</label>
+    </div>
+    <div class="col-lg-3 col-4 emailformrows">
+        <div class="input-group">
+            {{form.time}}
+        </div>
+    </div>
+    <div class="col-1">
+        <button class="btn btn-danger remove-form-row" name="buttonname">-</button>
+    </div>
+</div>
+
+{% endfor %}
+<br>
+
+
+<div class="row align-items-start">
+<div class="col-3 mr-0 pr-0">
+    <a role="button" class="btn btn-block cancel-btn" href="{% url 'setup2' %}">Back</a>
+</div>
+<div class="col-md-3 col-6">
+    <a role="button" class="btn btn-block cancel-btn" href="{% url 'index' %}">Finish later</a>
+</div>
+<div class="col-md-3 d-md-inline-block d-none">
+</div>
+<div class="col-md-3 col-3 ml-0 pl-0">
+    <button type="submit" class="btn btn-block new-btn">Finish</button>
+</div>
+</div>
+</form>
+</div>
+
+<script>
+
+function changeButtons() {
+    var conditionRow = $('.form-row:not(:last)');
+    conditionRow.find('.btn.add-form-row')
+    .removeClass('btn-success').addClass('btn-danger')
+    .removeClass('add-form-row').addClass('remove-form-row')
+    .html('<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>');
+    return false;
+}
+
+function updateElementIndex(el, prefix, ndx) {
+    var id_regex = new RegExp('(' + prefix + '-\\d+)');
+    var replacement = prefix + '-' + ndx;
+    if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex, replacement));
+    if (el.id) el.id = el.id.replace(id_regex, replacement);
+    if (el.name) el.name = el.name.replace(id_regex, replacement);
+}
+function cloneMore(selector, prefix) {
+    var newElement = $(selector).clone(true);
+    newElement.removeClass("hidden");
+    var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
+    newElement.find(':input').each(function() {
+        var day = $(this).attr('name').replace('-' + (total-1) + '-', '-' + total + '-');
+        var id = 'id_' + day;
+        $(this).attr({'name': day, 'id': id}).val('').removeAttr('checked');
+    });
+    total++;
+    $('#id_' + prefix + '-TOTAL_FORMS').val(total);
+    $(selector).after(newElement)
+    var conditionRow = $('.form-row:not(:last)');
+    return false;
+}
+function deleteForm(prefix, btn) {
+    var total = $('.form-row:not(.hidden)').length;
+    if (total > 1){
+        var deleterow = btn.closest('.form-row');
+        deleterow.find('input:checkbox').prop('checked', true);
+        deleterow.find('input:checkbox').attr('value', 'on');
+        deleterow.addClass('hidden');
+        var forms = $('.form-row');
+        $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+        for (var i=0, formCount=forms.length; i<formCount; i++) {
+            $(forms.get(i)).find(':input').each(function() {
+                updateElementIndex(this, prefix, i);
+            });
+        }
+    }
+    return false;
+}
+$(document).on('click', '.add-form-row', function(e){
+    e.preventDefault();
+    cloneMore('.form-row:last', 'form');
+    return false;
+});
+$(document).on('click', '.remove-form-row', function(e){
+    e.preventDefault();
+    deleteForm('form', $(this));
+    return false;
+});
+
+$(function(){
+   changeButtons();
+});
+
+</script>
+
+</div>
+
+<br>
+<br>
+
+{% endblock %}

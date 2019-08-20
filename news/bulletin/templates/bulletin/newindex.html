@@ -1,0 +1,431 @@
+{% extends "base_common.html" %}
+
+{% block title %}
+Quota
+{% endblock %}
+
+{% block head %}
+
+
+<!--Quota-->
+
+<!--Built with: -->
+<!--Python (https://www.python.org/)-->
+<!--Django (https://www.djangoproject.com/)-->
+<!--newspaper3k (https://pypi.org/project/newspaper3k/)-->
+<!--Bootstrap (https://getbootstrap.com/)-->
+<!--PythonAnywhere (https://www.pythonanywhere.com/)-->
+<!--Google (https://www.google.com/)-->
+<!--StackExchange (https://www.stackexchange.com/)-->
+<!--And plenty of hard work-->
+
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/prefs-styles.css' %}">
+<link rel="stylesheet" href="{% static 'css/sticky-footer.css' %}">
+
+{% endblock %}
+
+
+{% block content %}
+
+
+<!--Top bar to display if the user is not signed in-->
+
+
+{% if user.is_authenticated %}
+{% else %}
+<div class="login_prompt mx-0 px-0">
+<div class="container-fluid pl-0" style="background-color:#FFFD9B">
+
+<div class="row align-items-center pr-0" style="width:100%;margin:0%;">
+
+<div class="col-xl-10 col-md-9 col-sm-8 col-6 pl-0 ml-0 pr-0 mr-0">
+
+<p class="d-none d-xl-inline-block mt-2 mb-2 pl-4">Welcome! Quota is a personalized service, so it works best when you're logged in. Use the buttons on the right to log in or sign up for an account.</p>
+<p class="d-none d-md-inline-block d-xl-none mt-2 mb-2 pl-4">Welcome! Quota is a personalized service, so it works best when you're logged in.</p>
+<p class="d-inline-block d-md-none mt-2 mb-2 pl-3 pr-0 mr-0">Quota works best when you're logged in.</p>
+
+</div>
+
+<div class="col-xl-2 col-md-3 col-sm-4 col-6 pr-0 mr-0">
+<div class="ml-auto mr-0 pr-0" style="display:inline-block; float:right;">
+    <a role="button" class="btn new-btn mr-1 mt-2 mb-2" href="{% url 'login' %}">Log in</a>
+    <a role="button" class="btn btn-success mt-2 mb-2 mr-0" href="{% url 'signup' %}">Sign up</a>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+{% endif %}
+
+<!--Widget bar for mobile/small browsers-->
+
+<div class="container-fluid">
+
+<div class="d-xl-none d-flex row mt-2 mr-0 pl-4 pr-4 mob-widgets" id="mobileWidgetBar">
+
+    {% if stockpricessmall.0 %}
+    <p class="widgetrow mb-1" style="font-size: 80%">
+    {% for i in stockpricessmall %}
+    <strong>{{ i.ticker }}:</strong>
+    {% if i.neg == 1 %}
+    &ensp;<span class = "text-danger">${{ i.price }}</span>
+    &ensp;<span class = "text-danger">({{ i.pctchange }}%)</span>&emsp;
+    {% else %}
+    &ensp;<span class = "text-success">${{ i.price }}</span>
+    &ensp;<span class = "text-success">({{ i.pctchange }}%)</span>&emsp;
+    {% endif %}
+    {% endfor %}
+    </p>
+    {% endif %}
+
+    {% if weathersmall.0 %}
+    <p class="widgetrow mb-0" style="font-size: 80%"><strong>{{ weathersmall.0.0.city }}:</strong>
+    {% for i in weathersmall.0 %}
+    &emsp;<strong>{{ i.day }}</strong>
+    &ensp;<img src="/bulletin/static/icons/{{ i.icon }}.png" width="20px">
+    &ensp;<strong>H</strong>&ensp;{{ i.high }}
+    &ensp;<strong>L</strong>&ensp;{{ i.low }}
+    {% endfor %}
+    </p>
+    {% endif %}
+
+
+</div>
+</div>
+
+<!--Script to hide mobile bar for iPhone -->
+
+<script>
+    $( document ).ready(function() {
+    var ua = navigator.userAgent;
+    if (ua.match(/Version\/12./i)) {
+        $('#mobileWidgetBar').removeClass('d-flex');
+        $('#mobileWidgetBar').addClass('d-none');
+        // $('#mobileWidgetBar').append(ua);
+    }
+    });
+</script>
+
+<!--Top bar with date, time, and category links-->
+
+<div class="topbar mt-2 mr-0 pr-0">
+<div class="container-fluid">
+<div class="row align-items-center" style="width:100%">
+<div class="col-5 col-lg-4 pl-4 mb-0" style="width:100%">
+{% load tz %} {% timezone tzone %}
+<h5 class="mt-0" style="margin-bottom:0.33rem">{{ date|date }}, <span class="nobr">{{ time|time }}</span> {{tz_name}} <span class="d-none d-lg-inline">edition</span></h5>
+{% endtimezone %}
+</div>
+<div class="col-7 col-lg-8">
+<div class="row justify-content-center mt-1 mb-1">
+{% for catlist in newformat %}
+    {% if catlist == "Custom alerts" %}
+    <div class="category-link pl-2 pr-2">
+    <a href='#customalerts'>Custom alerts</a>
+    </div>
+    {% else %}
+
+    <div class="category-link pl-2 pr-2">
+
+    {% if catlist.0.0.category %}
+    <a href='#{{ catlist.0.0.category }}'>{{ catlist.0.0.category }}</a>
+    {% else %}
+    <a href='#{{ catlist }}'>{{ catlist }}</a>
+    {% endif %}
+
+    </div>
+
+    {% endif %}
+{% endfor %}
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!--Container for overall news-->
+
+<div class="container-fluid">
+
+<div class="row align-items-start">
+
+<div class="col-lg-9 col-12 mt-2 mr-0 ml-0 pl-4 pr-4">
+
+<!--style="padding-left:3.7%;"-->
+
+
+{% if newformat %}
+
+<!--    Repeats for all categories-->
+
+{% for catlist in newformat %}
+
+<!--    Category header-->
+
+    {% if catlist == "Custom alerts" %}
+
+    <!--    Custom alerts-->
+<a name="customalerts"></a>
+<div class="col-lg-5 col-md-6 col-12 mb-1 pl-0 ml-title-md ml-title">
+    <!--style="background-color:#130f40" header-->
+    <h3 class="admin-header"><a class="custom-topic-link" href="{% url 'topicview' %}">Your custom alerts</a></h3>
+    </div>
+
+{% for topic in topiclist %}
+
+<!--Topic heading-->
+
+<h4 class="story-head mt-4 mb-1 ml-title-md ml-title">{{ topic.title }}</h4>
+
+<div class="row align-items-start mt-0 pt-2 mr-0 ml-title-md ml-title mb-2" style="border:1px #130f40; border-style:solid none none none">
+
+{% if topic.items.all.0 %}
+<div class="col-4 pl-0 ml-0 d-none d-md-inline-block">
+<img src="{{ topic.items.all.0.top_image }}" alt="" width="100%" class="mx-auto">
+</div>
+<div class="col-md-8 col-12 pr-0 mr-0">
+
+{% for item in topic.items.all %}
+
+<!--Top 4 topic items-->
+
+<h5 class="ml-2 mt-2 mb-2 pr-2"><a class="topic-lead" href="{{ item.link }}" target="_blank" rel="noopener noreferrer">{{ item.title }}</a>&ensp;<span class="text-muted" style="font-family:'Roboto',sans-serif;font-size:1rem;font-weight:400">{{ item.source }}</span></h5>
+<!--style="font-weight:400;font-size:0.9em;font-family:'Roboto'"-->
+
+
+{% endfor %}
+
+
+{% if topic.items.all.3 %}
+<p class="ml-2 mt-3 mb-0"><a class="pref-btn-color" href="{% url 'topicview' %}#{{topic.title}}">See more related stories...</a></p>
+{% endif %}
+
+
+</div>
+
+{% else %}
+<p class="mt-2 topic-item text-muted ml-0 pl-0">No items were found for this alert in your selected sources. You can <a class="pref-btn-color" href="{{ topic.get_absolute_url }}#topic" target="_blank" rel="noopener noreferrer">edit your preferences for this alert here.</a></p>
+{% endif %}
+
+</div>
+
+{% empty %}
+
+<br>
+
+<p class="topic-item ml-0 pl-0">You don't have any custom alerts set up. To add a custom alert, go to the <a class="pref-btn-color" href="{% url 'topicprefs' %}" target="_blank" rel="noopener noreferrer">preferences page.</a></p>
+
+
+{% endfor %}
+
+    <br>
+
+
+    {% else %}
+
+    {% if catlist.0.0.category %}
+
+    <a name='{{ catlist.0.0.category }}'></a>
+    <div class="col-lg-5 col-md-6 col-12 mb-1 pl-0 mt-3 ml-title-md ml-title">
+        <!--style="background-color:#130f40 style="margin-left:2rem;""-->
+    <h3 class="admin-header">{{ catlist.0.0.category }}</h3>
+    </div>
+
+    <div class="row align-items-start mb-5">
+
+<!--Stories laid out in grid format-->
+
+    {% for storylist in catlist %}
+
+<!--Story containers-->
+
+    <div class="col-md-6 col-12 pl-container-md pl-container pr-3 mt-2 mb-4">
+
+    {% if storylist.0 %}
+
+<!--Story title, tagline, image, etc.-->
+
+    <h4><a href="{{ storylist.0.link }}" class="story-lead" target="_blank" rel="noopener noreferrer">{{ storylist.0.title }}</a></h4>
+
+    <p class="story-tagline">{{ storylist.0.slug }}&ensp;<span class="nobr text-muted">{{ storylist.0.newsource.source }}</span></p>
+
+    <img src="{{ storylist.0.top_image }}" alt="" width="100%">
+
+    <p class="image_caption text-muted">Image source: {{ storylist.0.source }}</p>
+
+        {% for relatedstory in storylist.1 %}
+
+    <p class="related_story pl-0 ml-0"><a href="{{ relatedstory.link }}" class="related_link" target="_blank" rel="noopener noreferrer">{{ relatedstory.title }}</a>&ensp;<span class="nobr text-muted">{{ relatedstory.newsource.source }}</span></p>
+
+        {% empty %}
+        <p class="related_story pl-0 ml-0"><span class="text-muted">No related items found for this story.</span></p>
+        {% endfor %}
+
+    {% else %}
+
+    {% endif %}
+
+    <br>
+
+    </div>
+
+    {% empty %}
+
+    {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <a name='{{ catlist }}'></a>
+    <div class="col-lg-5 col-md-6 col-12 mb-1 pl-0 ml-title-md ml-title">
+        <!--style="background-color:#130f40"-->
+    <h3 class="admin-header">{{ catlist }}</h3>
+    </div>
+
+    <p class="mt-2 topic-item text-muted ml-0 pl-0">No stories were found for this category in your selected sources.</p>
+    <p class="mt-2 mb-5 topic-item text-muted ml-0 pl-0">You can <a class="pref-btn-color" href="{% url 'sourceprefs' %}" target="_blank" rel="noopener noreferrer">edit your source preferences here.</a></p>
+
+
+    {% endif %}
+
+{% endif %}
+
+{% empty %}
+
+{% endfor %}
+
+
+{% else %}
+    <p>No items are available.</p>
+{% endif %}
+
+<br>
+
+</div>
+
+<!--Widget container for large screens-->
+
+<div class="d-none d-xl-block col-lg-3 col-4 mt-2 mr-0 pr-0 pl-5">
+    <!--style="border:2px black;border-style:none none none solid;"-->
+
+{% if stockprices.0 %}
+
+<div class="widget-head-row align-items-start mt-3" style="width:100%;">
+<div class="mb-0 pl-0 ml-0">
+    <h4 class="admin-header">Stocks</h4>
+</div>
+
+<span class="ml-auto mr-4" style="display:inline-block;width:32px;margin-top:0.2em;">
+
+  <a href="{% url 'widgetprefs' %}#stocks">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false"
+    width="2em" height="2em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);"
+    preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
+    <path d="M12 15.498a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7zm7.428-2.524a7.5 7.5 0 0 0 .07-.976 7.5 7.5 0 0 0-.07-.976l2.113-1.654a.5.5 0 0 0 .118-.638l-2-3.464a.5.5 0 0 0-.612-.217l-2.489 1.003a7.474 7.474 0 0 0-1.69-.983l-.375-2.65A.501.501 0 0 0 14 2l-4-.001a.5.5 0 0 0-.494.421L9.13 5.07a7.499 7.499 0 0 0-1.69.983L4.95 5.05a.5.5 0 0 0-.612.217l-2 3.464a.5.5 0 0 0 .118.638l2.112 1.654c-.042.32-.07.645-.07.976 0 .331.028.656.07.976l-2.112 1.653a.5.5 0 0 0-.118.64l2 3.463a.5.5 0 0 0 .612.217l2.49-1.003a7.477 7.477 0 0 0 1.69.983l.374 2.65a.5.5 0 0 0 .494.421h4a.501.501 0 0 0 .494-.421l.375-2.65a7.496 7.496 0 0 0 1.69-.984l2.49 1.004a.5.5 0 0 0 .611-.217l2-3.464a.5.5 0 0 0-.118-.639l-2.113-1.653z" fill="#bbbbbb"/>
+    <rect x="0" y="0" width="24" height="24" fill="rgba(0, 0, 0, 0)" />
+    </svg>
+    </a>
+</span>
+
+</div>
+
+
+<!--Table with stock prices for user's stocks-->
+
+<table>
+    {% for i in stockprices %}
+    <tr>
+        <td><strong>{{ i.ticker }}</strong></td>
+        <td style="text-align:right">${{ i.price }}</td>
+        {% if i.neg == 1 %}
+        <td class = "text-danger">{{ i.change }}</td>
+        <td class = "text-danger">({{ i.pctchange }}%)</td>
+        {% else %}
+        <td class = "text-success">+{{ i.change }}</td>
+        <td class = "text-success">(+{{ i.pctchange }}%)</td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+</table>
+
+<p class="mt-2 text-muted" style="font-size:0.8em;padding-bottom:0%;margin-bottom:0%"><i>Stock data provided through IEX Cloud</i></p>
+<br>
+
+{% endif %}
+
+
+{% if weather.0 %}
+
+<div class="widget-head-row align-items-center">
+<div class="mb-0 pl-0 ml-0">
+    <h4 class="admin-header">Weather</h4>
+</div>
+
+<span class="ml-auto mr-4" style="display:inline-block;width:32px;margin-top:0.2em;">
+  <a href="{% url 'widgetprefs' %}#weather">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false"
+    width="2em" height="2em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);"
+    preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
+    <path d="M12 15.498a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7zm7.428-2.524a7.5 7.5 0 0 0 .07-.976 7.5 7.5 0 0 0-.07-.976l2.113-1.654a.5.5 0 0 0 .118-.638l-2-3.464a.5.5 0 0 0-.612-.217l-2.489 1.003a7.474 7.474 0 0 0-1.69-.983l-.375-2.65A.501.501 0 0 0 14 2l-4-.001a.5.5 0 0 0-.494.421L9.13 5.07a7.499 7.499 0 0 0-1.69.983L4.95 5.05a.5.5 0 0 0-.612.217l-2 3.464a.5.5 0 0 0 .118.638l2.112 1.654c-.042.32-.07.645-.07.976 0 .331.028.656.07.976l-2.112 1.653a.5.5 0 0 0-.118.64l2 3.463a.5.5 0 0 0 .612.217l2.49-1.003a7.477 7.477 0 0 0 1.69.983l.374 2.65a.5.5 0 0 0 .494.421h4a.501.501 0 0 0 .494-.421l.375-2.65a7.496 7.496 0 0 0 1.69-.984l2.49 1.004a.5.5 0 0 0 .611-.217l2-3.464a.5.5 0 0 0-.118-.639l-2.113-1.653z" fill="#bbbbbb"/>
+    <rect x="0" y="0" width="20" height="20" fill="rgba(0, 0, 0, 0)" />
+    </svg>
+    </a>
+</span>
+
+</div>
+
+<!--Headline for weather in each city-->
+
+{% for cityweather in weather %}
+
+<h5 class="mt-2">{{ cityweather.0.city }}</h5>
+
+{% load static %}
+
+<!--Table with weather for the city-->
+
+<table>
+    {% for i in cityweather %}
+    <tr>
+        <td><span style="font-weight:900">{{ i.day }}</span></td>
+        <td><div style="width:63px">{{ i.summary }}</div></td>
+        <td><img src="/bulletin/static/icons/{{ i.icon }}.png" width="25px"></td>
+        <td><span style="font-weight:900">H</span> {{ i.high }}</td>
+        <td><span style="font-weight:900">L</span> {{ i.low }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<!--Weather icon sources-->
+<!--All icons are licensed under Creative Commons. Some have been altered from their original form.-->
+
+<!--Sun icon made by Daniel Bruce (https://www.flaticon.com/authors/daniel-bruce) from www.flaticon.com-->
+<!--Cloud icon made by Iconnice (https://www.flaticon.com/authors/iconnice) from www.flaticon.com and altered for this site-->
+<!--Moon icon made by Akham on freeiconspng.com (https://www.freeiconspng.com/img/23623)-->
+<!--Snow icon made by Icon Works (https://www.flaticon.com/authors/icon-works) from www.flaticon.com-->
+<!--Fog icon made by Daniel Bruce (https://www.flaticon.com/authors/daniel-bruce) from www.flaticon.com-->
+<!--Wind icon made by Yannick (https://www.flaticon.com/authors/yannick) from www.flaticon.com and altered for this site-->
+<!--All other icons are combined or edited versions of the above icons-->
+
+
+{% empty %}
+
+{% endfor %}
+
+<p class="mt-2 text-muted" style="font-size:0.8em;padding-bottom:0%;margin-bottom:0%"><i>Weather data provided through DarkSky</i></p>
+
+{% endif %}
+
+</div>
+
+</div>
+</div>
+
+
+{% endblock %}

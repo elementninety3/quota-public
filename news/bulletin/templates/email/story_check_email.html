@@ -1,0 +1,55 @@
+<head>
+
+
+</head>
+
+<body style="margin-left:0px;padding-left:0px;">
+<!--Container for overall news-->
+
+<div style="width:100%;padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto">
+
+<div style="margin-top:5%;padding-left:8%;padding-right:8%">
+
+<h1 style="font-family:Crimson Text, Garamond, serif; font-weight: 600; margin-bottom:3.5%;color:#130f40">Your Quota story check for {{ date }}, {{ time }} {{tz_name}}</h1>
+
+<p style="margin-bottom:4.5%">{{message}}</p>
+
+<div style="margin-bottom:1.5%;background-color:#130f40">
+    <h2 style="color: white;font-family:Crimson Text,Garamond,serif;font-weight: 600;padding-left: 0.3em;padding-top: 0;padding-bottom: 0.2em;">Top stories</h2>
+</div>
+
+{% for item in topstories %}
+
+<h3 style="font-family:Crimson Text,Garamond,serif;font-weight: 600;color: #130f40; font-size: 1.3em"><a href="{{ item.link }}" style="text-decoration: none; color: #130f40">{{ item.title }}</a></h3>
+
+{% empty %}
+
+<p>Top stories could not be loaded.</p>
+
+{% endfor %}
+
+
+<!--    Repeats for all stories -->
+
+{% for cat, storylist in totallist.items %}
+
+
+<div style="margin-bottom:1.5%;background-color:#130f40">
+    <h2 style="color: white;font-family:Crimson Text,Garamond,serif;font-weight: 600;padding-left: 0.3em;padding-top: 0;padding-bottom: 0.2em;">{{ cat }}</h2>
+</div>
+
+{% for story in storylist %}
+
+<p>{{ story }}</p>
+
+{% endfor %}
+
+
+
+{% empty %}
+
+<p>Story check list could not be loaded.</p>
+
+{% endfor %}
+
+</body>

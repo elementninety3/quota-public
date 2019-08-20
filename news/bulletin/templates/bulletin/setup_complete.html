@@ -1,0 +1,47 @@
+{% extends "base_common.html" %}
+
+{% block title %}
+Setup complete
+{% endblock %}
+
+{% block head %}
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/prefs-styles.css' %}">
+<link rel="stylesheet" href="{% static 'css/sticky-footer.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+<div class="col-md-6 offset-md-3 col-12">
+    <div class="top-title mb-4">
+  <h3 class="admin-header">Setup complete</h3>
+        </div>
+    <p class="text-spaced">Your new account is all ready to go! We hope you enjoy using Quota.</p>
+    <p class="text-spaced">If you want an even more personalized experience, try adding some <a class="pref-btn-color" href="{% url 'topicprefs' %}">custom alerts</a> to track. You can also customize <a class="pref-btn-color" href="{% url 'sourceprefs' %}">which news sources</a> are included in your briefings. All of these options and more can be found in the <a class="pref-btn-color" href="{% url 'preferences' %}">preferences center</a>.</p>
+    <p class="text-spaced">If you experience any bugs, have ideas on how to improve the site, or want to let us know which features are your favorite, please <a class="pref-btn-color" href="{% url 'feedback' %}">send us some feedback</a>. We're always working to make Quota even better.</p>
+
+<br>
+
+<div class="row align-items-start">
+<div class="col-3 mr-0 pr-0">
+    <a role="button" class="btn btn-block cancel-btn" href="{% url 'setup3' %}">Back</a>
+</div>
+<div class="col-md-3 col-6">
+    <a role="button" class="btn btn-block cancel-btn" href="{% url 'index' %}">Finish later</a>
+</div>
+<div class="col-md-3 d-md-inline-block d-none">
+</div>
+<div class="col-md-3 col-3 ml-0 pl-0">
+    <a role="button" class="btn btn-block new-btn" href="{% url 'index' %}">Finish</a>
+</div>
+</div>
+</div>
+
+</div>
+
+<br>
+<br>
+{% endblock %}

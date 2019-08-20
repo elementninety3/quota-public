@@ -1,0 +1,30 @@
+{% extends "base_common.html" %}
+
+{% block title%}Error{% endblock %}
+{% block head %}
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/sticky-footer.css' %}">
+
+<link rel="stylesheet" href="{% static 'css/prefs-styles.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+<div class="col-md-6 offset-md-3 col-12">
+    <div class="top-title">
+  <h3 class="admin-header">500 - internal server error</h3>
+        </div>
+    <br>
+    <br>
+    <p>Sorry, it looks like we're having some technical problems. We'll fix them as soon as we can.</p>
+    <br>
+    <p>You can try to <a class="pref-btn-color" href="{% url 'index' %}">go to the home page</a> or <a class="pref-btn-color" href="javascript:history.back()">go back</a> to the last page you were on.</p>
+    <br>
+    <p>If you're seeing repeated errors, please <a class="pref-btn-color" href="mailto:feedback@quotanews.com">let us know</a>.</p>
+    <br>
+    <br>
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base_common.html" %}
+
+{% block title %}Unsubscribe from Bulletyn{% endblock %}
+{% block head %}
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/sticky-footer.css' %}">
+
+<link rel="stylesheet" href="{% static 'css/prefs-styles.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+<div class="col-md-6 offset-md-3 col-12">
+    <div class="top-title">
+  <h3 class="admin-header">Unsubscribe</h3>
+        </div>
+    <br>
+    <p>You are about to unsubscribe from all email updates to {{email}}.</p>
+    <p>Click the 'unsubscribe' button below to confirm.</p>
+    <br>
+  <div class="row align-items-start">
+    <div class="prefs-button ml-3">
+      <form action='' method='post'>
+        {% csrf_token %}
+        <button type="submit" class="btn btn-block btn-danger">Unsubscribe</button>
+
+    </form>
+        </div>
+    <div class="col-4 ml-3" style="display:inline-block">
+        <a href="{% url 'index' %}" role="button" class="btn btn-block cancel-btn">Cancel</a>
+    </div>
+</div>
+
+</div>
+{% endblock %}

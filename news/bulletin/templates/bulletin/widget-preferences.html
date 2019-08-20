@@ -1,0 +1,228 @@
+{% extends "base_common.html" %}
+
+{% block title %}
+Preferences
+{% endblock %}
+
+{% block head %}
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/page-load.css' %}">
+
+<link rel="stylesheet" href="{% static 'css/prefs-styles.css' %}">
+
+<link rel="stylesheet" href="{% static 'css/sticky-footer.css' %}">
+
+<!--<link rel="stylesheet" type="text/css" href="{% static 'css/multi.min.css' %}">-->
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/chosen.css' %}">
+
+<!--<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>-->
+
+<script src="{% static 'js/chosen.jquery.js' %}"></script>
+
+<!--<script src="{% static '/js/multi.min.js' %}"></script>-->
+
+<script src="https://SortableJS.github.io/Sortable/Sortable.js"></script>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="d-none d-md-block row align-items-end topbar mt-2 mr-0 pr-0">
+<div class="col-10 ml-4 mb-0 mt-1">
+<h5 style="margin-bottom:0.35rem">Preferences</h5>
+</div>
+</div>
+
+<div class="d-md-none row align-items-start">
+<div class="col-12 mt-2 pl-4 pr-4">
+<div class="row align-items-start">
+    <div class="col-3">
+        <div class="mob-prefs-header">
+            <p class="mb-1"><a href="{% url 'preferences' %}" class="mob-pref-link">General</a></p>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="mob-prefs-header">
+            <p class="mb-1"><a href="{% url 'topicprefs' %}" class="mob-pref-link">Alerts</a></p>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="mob-prefs-header">
+            <p class="mb-1"><a href="{% url 'sourceprefs' %}" class="mob-pref-link">Sources</a></p>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="mob-prefs-header curr-mob-pref-page">
+            <p class="mb-1"><a href="#" class="mob-pref-link">Widgets</a></p>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+
+
+<div class="prefs-container">
+
+<div class="d-none d-md-flex row align-items-start prefs-topbar mt-2">
+    <div class="col-3 justify-items-center">
+        <div class="prefs-header">
+            <h3><a href="{% url 'preferences' %}" class="pref-link">General</a></h3>
+        </div>
+    </div>
+    <div class="col-3 justify-items-center">
+        <div class="prefs-header">
+            <h3><a href="{% url 'topicprefs' %}" class="pref-link">Custom alerts</a></h3>
+        </div>
+    </div>
+    <div class="col-3 justify-items-center">
+        <div class="prefs-header">
+            <h3><a href="{% url 'sourceprefs' %}" class="pref-link">Sources</a></h3>
+        </div>
+    </div>
+    <div class="col-3 justify-items-center">
+        <div class="prefs-header curr-pref-page">
+            <h3><a href="#" class="pref-link">Widgets</a></h3>
+        </div>
+    </div>
+</div>
+
+{% if messages %}
+
+<ul class="messages mt-3 ml-0 pl-0">
+    {% for message in messages %}
+    <li{% if message.tags %} class="text-{{ message.tags }}"{% endif %}><strong>{{ message }}</strong></li>
+    {% endfor %}
+</ul>
+{% else %}
+<br>
+{% endif %}
+
+<div class="row">
+
+    <!--align-items-start-->
+
+
+<div class="col-md-6 col-12 pl-5 pr-5 widget-col">
+<a name="stocks"></a>
+
+<strong>Stocks:</strong>
+<small class="form-text text-muted mb-3">Enter a company name or stock ticker in the search bar below to select stocks for the stock widget. Drag and drop to re-order, or remove stocks by clicking the 'x'.</small>
+
+
+<form action="/beta/preferences/widgets" method="post" novalidate>
+{% csrf_token %}
+<input type="hidden" name="stocksempty" value="submitted" />
+{{ stockform }}
+<br>
+<br>
+<div class="widget-btn">
+<button type="submit" class="btn btn-block new-btn">Save my stock preferences</button>
+</div>
+</form>
+
+<script>
+
+
+$("#stock_select").chosen({width:"100%", no_results_text: "No results found."});
+
+//    var select = document.getElementById('stock_select');
+//    multi(select, {
+//        enable_search: true
+//    });
+</script>
+
+<br>
+
+</div>
+
+
+
+<div class="col-md-6 col-12 pl-5 pr-5 widget-col">
+<a name="weather"></a>
+<strong>Weather:</strong>
+<small class="form-text text-muted mb-3">Enter a city name in the search bar below to select cities for the weather widget. Drag and drop to re-order, or remove cities by clicking the 'x'.</small>
+
+
+<form action="/beta/preferences/widgets" method="post" novalidate>
+{% csrf_token %}
+<input type="hidden" name="weatherempty" value="submitted" />
+{{ weatherform }}
+<br>
+<br>
+<div class="widget-btn">
+<button type="submit" class="btn btn-block new-btn">Save my weather preferences</button>
+</div>
+</form>
+
+<script>
+
+$("#city_select").chosen({width:"100%", no_results_text: "No results found for"});
+
+
+// function sortChoices(el) {
+//     var lilist = $(el).find("li").toArray().reverse();
+
+//     for ( var i = 0; i < lilist.length; i++ ) {
+
+//     var optionvalue = $(lilist[i]).find("span").text();
+
+//     var optioncontainer = $(lilist[i]).parent("ul").closest("form").find("select");
+
+//     var optionmove = optioncontainer.find('option:contains("' + optionvalue + '")');
+
+//     $(lilist[i]).find("a").attr("data-option-array-index", "" + (lilist.length - i - 2) + "");
+
+//     optioncontainer.prepend(optionmove);
+
+//     };
+
+// }
+
+// $("button").mouseover(function() {
+//     sortChoices($(this).closest("form").find("ul"));
+// });
+
+
+
+//    var select = document.getElementById('city_select');
+//    multi(select, {
+//        enable_search: true
+//    });
+</script>
+
+<script>
+    // Sortable - for JS
+
+    $("div.col-md-6").each(function () {
+
+    var divname = $(this).find("a").attr("name");
+
+    $(this).find("form").find("ul.chosen-choices").attr("id", "sortable_" + divname + "");
+
+    });
+
+    Sortable.create(sortable_weather, { /* options */ });
+    Sortable.create(sortable_stocks, { /* options */ });
+
+    $(document).ready(function() {
+  document.getElementsByTagName("html")[0].style.visibility = "visible";
+});
+
+</script>
+
+<br>
+
+</div>
+
+<br>
+
+
+</div>
+</div>
+
+{% endblock %}

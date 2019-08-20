@@ -1,0 +1,297 @@
+{% extends "base_common.html" %}
+
+{% block title %}Quota - FAQ{% endblock %}
+
+{% block head %}
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/prefs-styles.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+<div class="col-md-10 offset-md-1 col-12">
+
+  <!--  <div class="d-none d-md-block">-->
+  <!--  <div class="col-12 top-title" style="white-space:nowrap">-->
+         <!--style="margin-top:4rem;-->
+  <!--<h3 class="about-header">Quota gives you news updates on whatever you want,</h3>-->
+  <!--</div>-->
+  <!--<div class="col-12" style="margin-top:0.1rem;">-->
+  <!--<h3 class="admin-header">sent to your inbox whenever you want.</h3>-->
+  <!--    </div>-->
+  <!--   </div>-->
+
+  <!--   <div class="d-block d-md-none">-->
+
+  <!--      <div class="col-12 top-title" style="white-space:nowrap">-->
+         <!--style="margin-top:4rem;-->
+  <!--<h3 class="about-header">Quota gives you news</h3>-->
+  <!--</div>-->
+  <!--<div class="col-12" style="margin-top:0.1rem;">-->
+  <!--<h3 class="about-header">about whatever,</h3>-->
+  <!--    </div>-->
+  <!--<div class="col-12" style="margin-top:0.1rem;">-->
+  <!--<h3 class="about-header">sent to your</h3>-->
+  <!--    </div>-->
+  <!--<div class="col-12" style="margin-top:0.1rem;">-->
+  <!--<h3 class="admin-header">inbox whenever.</h3>-->
+  <!--    </div>-->
+
+
+    <!--<div class="col-12" style="margin-top:2rem;">-->
+    <!--<strong class="mb-3" style="color:#0f1f40;font-size:1.2em;">Quota gives you news updates on whatever you want, sent to your inbox whenever you want.</strong>-->
+    <!--</div>-->
+  <!--  </div>-->
+
+  <!--  <div class="row align-items-center ml-0 mr-0 pl-0 pr-0">-->
+  <!--  <div class="d-lg-none d-block col-12" style="margin-top:2rem;">-->
+  <!--      <img src="{% static 'photos/abouticon.png' %}" style="width:100%;max-width:180px;display:block;margin:auto">-->
+  <!--  </div>-->
+  <!--  <div class="col-lg-6 col-12" style="margin-top:2rem;">-->
+  <!--  <p class="text-spaced">With Quota, you can take control of your daily news. Pick what's important to you and filter out what isn't. Set up custom alerts based on keywords you define. Get five updates a day, or one per week. Choose which sites you want to see news from and cut out the rest.</p>-->
+  <!--  <br>-->
+  <!--  <p class="text-spaced">You're free to design your daily news however you want.</p>-->
+
+  <!--  <div class="col-12 ml-0 mr-0 pl-0 pr-0" style="margin-top:4rem;">-->
+  <!--  <a class="btn btn-block btn-success" href="{% url 'signup' %}" role="button">Sign up</a>-->
+  <!--  </div>-->
+
+  <!--  <div class="col-12 ml-0 mr-0 pl-0 pr-0" style="margin-top:1rem;">-->
+  <!--  <a class="btn btn-block new-btn" href="{% url 'index' %}" role="button">See an example</a>-->
+  <!--  </div>-->
+
+  <!--  </div>-->
+  <!--  <div class="col-lg-6 d-lg-block d-none" style="margin-top:2rem;">-->
+  <!--      <img src="{% static 'photos/abouticon.png' %}" style="width:100%;max-width:300px;display:block;margin:auto">-->
+  <!--  </div>-->
+  <!--  </div>-->
+
+  <!--  <div class="col-12 mb-3" style="margin-top:8em;">-->
+  <!--<h3 class="admin-header">Features</h3>-->
+  <!--      </div>-->
+
+
+  <!--  <div class="col-12 d-none d-lg-block" style="margin-top:3em;">-->
+
+  <!--  <div class="row align-items-start">-->
+
+  <!--  <div class="col-4" style="text-align:center;">-->
+  <!--      <strong class="pt-2 text-spaced" style="color:#0f1f40;font-size:1.2em;">Create custom alerts</strong>-->
+  <!--  </div>-->
+  <!--  <div class="col-4" style="text-align:center;">-->
+  <!--      <strong class="pt-2 text-spaced" style="color:#0f1f40;font-size:1.2em;">Schedule email updates</strong>-->
+  <!--  </div>-->
+  <!--  <div class="col-4" style="text-align:center;">-->
+  <!--      <strong class="pt-2 text-spaced" style="color:#0f1f40;font-size:1.2em;">Choose your news sources</strong>-->
+  <!--  </div>-->
+
+  <!--  </div>-->
+
+  <!--  <div class="row align-items-start mt-3">-->
+
+  <!--  <div class="col-4">-->
+  <!--      <img src="{% static 'photos/topics2.png' %}" style="height:100%;max-height:100px;display:block;margin:auto">-->
+  <!--  </div>-->
+  <!--  <div class="col-4">-->
+  <!--      <img src="{% static 'photos/emails2.png' %}" style="height:100%;max-height:100px;display:block;margin:auto">-->
+  <!--  </div>-->
+  <!--  <div class="col-4">-->
+  <!--      <img src="{% static 'photos/sources2.png' %}" style="height:100%;max-height:100px;display:block;margin:auto">-->
+  <!--  </div>-->
+
+  <!--  </div>-->
+
+  <!--  <div class="row align-items-start mt-4">-->
+
+  <!--  <div class="col-4 pl-5 pr-5">-->
+  <!--      <p class="text-spaced">Get updates on your favorite actress, hometown sports team, or politician, all as part of your regularly scheduled news bulletins.</p>-->
+  <!--  </div>-->
+  <!--  <div class="col-4 pl-5 pr-5">-->
+  <!--      <p class="text-spaced">Pick when your news is delivered to you, up to 24 times per day, and you'll have the latest in your inbox whenever you want it.</p>-->
+  <!--  </div>-->
+  <!--  <div class="col-4 pl-5 pr-5">-->
+  <!--      <p class="text-spaced">Choose which sources you see stories from, or even filter a source in or out based on category.</p>-->
+  <!--  </div>-->
+
+  <!--  </div>-->
+
+  <!--  <div class="row align-items-start" style="margin-top:4rem;">-->
+
+  <!--  <div class="col-6 pr-3">-->
+  <!--  <a class="btn btn-block btn-success" href="{% url 'signup' %}" role="button">Sign up</a>-->
+  <!--  </div>-->
+
+  <!--  <div class="col-6 pl-3">-->
+  <!--  <a class="btn btn-block new-btn" href="{% url 'index' %}" role="button">See an example</a>-->
+  <!--  </div>-->
+
+
+  <!--  </div>-->
+
+  <!--  </div>-->
+
+
+  <!--  <div class="col-10 offset-1 col-sm-12 offset-sm-0 d-block d-lg-none pl-0 pr-0">-->
+
+  <!--  <div class="row align-items-start">-->
+
+  <!--  <div class="col-sm-6 col-12 pl-4 pr-4" style="margin-top:3em;text-align:center;">-->
+  <!--  <p class="mb-3 text-spaced"><strong style="color:#0f1f40;font-size:1.2em;">Create custom alerts</strong></p>-->
+  <!--  <img src="{% static 'photos/topics2.png' %}" style="height:100%;max-height:100px;display:block;margin:auto">-->
+  <!--  <p class="mt-3 text-spaced" style="text-align:left;">Get updates on your favorite actress, hometown sports team, or politician, all as part of your regularly scheduled news bulletins.</p>-->
+  <!--  </div>-->
+
+  <!--  <div class="col-sm-6 col-12 pl-4 pr-4" style="margin-top:3em;text-align:center;">-->
+  <!--  <p class="mb-3 text-spaced"><strong style="color:#0f1f40;font-size:1.2em;">Schedule email updates</strong></p>-->
+  <!--  <img src="{% static 'photos/emails2.png' %}" style="height:100%;max-height:100px;display:block;margin:auto">-->
+  <!--  <p class="mt-3 text-spaced" style="text-align:left;">Pick when your news is delivered to you, up to 24 times per day, and you'll have the latest in your inbox whenever you want it.</p>-->
+  <!--  </div>-->
+
+  <!--  <div class="col-sm-6 col-12 pl-4 pr-4" style="margin-top:3em;text-align:center;">-->
+  <!--  <p class="mb-3 text-spaced"><strong style="color:#0f1f40;font-size:1.2em;">Choose your news sources</strong></p>-->
+  <!--  <img src="{% static 'photos/sources2.png' %}" style="height:100%;max-height:100px;display:block;margin:auto">-->
+  <!--  <p class="mt-3 text-spaced" style="text-align:left;">Choose which sources you see stories from, or even filter a source in or out based on category.</p>-->
+  <!--  </div>-->
+
+  <!--  </div>-->
+
+  <!--  <div class="col-lg-6 col-12" style="margin-top:4rem;">-->
+
+  <!--  <div class="col-12 ml-0 mr-0 pl-0 pr-0">-->
+  <!--  <a class="btn btn-block btn-success" href="{% url 'signup' %}" role="button">Sign up</a>-->
+  <!--  </div>-->
+
+  <!--  <div class="col-12 ml-0 mr-0 pl-0 pr-0" style="margin-top:1rem;">-->
+  <!--  <a class="btn btn-block new-btn" href="{% url 'index' %}" role="button">See an example</a>-->
+  <!--  </div>-->
+
+
+  <!--  </div>-->
+  <!--  </div>-->
+
+
+
+    <!--<a name="faq"></a>-->
+    <!--<br>-->
+
+    <div class="col-12 mb-3 top-title">
+  <h3 class="admin-header">FAQ</h3>
+    </div>
+    <div class="col-xl-6 col-lg-8 col-12">
+
+    <div style="margin-top:3rem;">
+    <strong class="text-spaced">How is this different from other daily newsletters (like theSkimm or the New York Times' Daily Briefing)?</strong>
+    </div>
+    <div class="mt-3">
+    <p class="mt-3 text-spaced">Quota gives you the tools to create <i>personalized</i> news updates.</p>
+    <p class="mt-2 text-spaced">Other newsletters have editors, who are able to add commentary and interpretation to the news. But these editors have to choose one set of news items to send to all their readers, one time to send the newsletter every day, and usually draw from very few news sources.</p>
+ <p class="mt-2 text-spaced">With Quota, you can select exactly the news you want to see, schedule updates for whenever you want, and pull together news stories from many different websites. You can even create custom topics to follow specific stories you are interested in. That level of customization is impossible with other daily newsletters.</p>
+    </div>
+
+    <div style="margin-top:4rem;">
+    <strong class="text-spaced">How does Quota pick which news stories to show me?</strong>
+    </div>
+    <div class="mt-4">
+    <p class="mt-3 text-spaced">Quota gets news articles from a wide variety of sources and analyzes them for keywords. Then, it creates stories based on the keywords that are most often being used in articles that day.</p>
+    <p class="mt-2 text-spaced">For example, if a building in Chicago caught fire, there would be a lot of articles using both the words "Chicago" and "fire". So Quota would identify that as a news story.</p>
+    <p class="mt-2 text-spaced">Stories are then ranked using several factors, such as how many articles they have and how specific the story's keywords are.</p>
+    </div>
+
+    <div style="margin-top:4rem;">
+    <strong class="text-spaced">Why did this article/story show up in my bulletin?</strong>
+    </div>
+    <div class="mt-4">
+    <p class="mt-3 text-spaced">We are still working on the logic of Quota, so sometimes it gives us unexpected results. If you have a concern, we'd love for you to <a href="{% url 'feedback' %}">let us know what happened</a> so we can take a look at it.</p>
+    </div>
+
+
+    <div style="margin-top:4rem;">
+    <strong class="text-spaced">How does Quota make money?</strong>
+    </div>
+    <div class="mt-4">
+    <p class="mt-3 text-spaced">With the beta version, our goal is to get feedback from real-world users and polish our product, not to make money.</p>
+    <p class="mt-2 text-spaced">There will always be a free version of Quota. Eventually, we'll support our free version by placing ads on the website and in our emails. Once we do that, our plan is to add a premium service with a monthly subscription fee, as well as an ad-free experience for a small monthly fee.</p>
+    <p class="mt-2 text-spaced">We will never make money by selling any of your information.</p>
+    </div>
+
+    <div style="margin-top:4rem;">
+    <strong class="text-spaced">What does Quota do with my information?</strong>
+    </div>
+    <div class="mt-4">
+    <p class="mt-3 text-spaced">We will never sell your information - including your email address, news preferences, or any other data - to any third parties. Any information we collect is only used to give you the most personalized news experience possible.</p>
+    </div>
+
+    <div style="margin-top:4rem;">
+    <strong class="text-spaced">I have another question which isn't answered here.</strong>
+    </div>
+    <div class="mt-4">
+    <p class="mt-3 text-spaced">Please <a href="{% url 'feedback' %}">get in touch</a> and let us know! We'd love to help if possible.</p>
+    </div>
+
+
+    </div>
+
+
+</div>
+<br>
+<br>
+{% endblock %}
+
+<!--<div class="col-12 d-block d-lg-none" style="margin-top:3em;">-->
+
+<!--    <div class="row align-items-center" style="margin-top:4em;">-->
+<!--    <div class="col-lg-9 col-sm-7 col-12">-->
+
+<!--    <strong class="pt-2" style="color:#0f1f40;font-size:1.2em;">Create custom alerts</strong>-->
+<!--    <p class="mt-2 pr-4">Get updates on what matters to you. No more Googling or getting separate emails with news on topics you care about - with Quota, your custom alerts are part of your regularly scheduled news bulletins. You can use them to track a politician, your hometown sports team, or maybe your favorite actor.</p>-->
+
+<!--    </div>-->
+<!--    <div class="col-lg-3 col-sm-5 col-12 mt-2">-->
+<!--    <img src="{% static 'photos/topics2.png' %}" style="width:100%;max-width:120px;display:block;margin:auto">-->
+<!--    </div>-->
+<!--    </div>-->
+
+<!--    <div class="row align-items-center" style="margin-top:8em;">-->
+
+<!--    <div class="col-12 d-sm-none mb-4">-->
+<!--        <strong class="pt-2" style="color:#0f1f40;font-size:1.2em;">Schedule email updates</strong>-->
+<!--    <p class="mt-2">Get your news delivered on your schedule. Have an email sent every day after you get to work, or once a week before you meet with your boss. You could even get updates on Saturday night, if you want to liven up the party.</p>-->
+
+<!--    </div>-->
+<!--    <div class="col-lg-3 col-sm-5 col-12 mt-0">-->
+
+<!--    <img src="{% static 'photos/emails2.png' %}" style="width:100%;max-width:150px;display:block;margin:auto">-->
+<!--    </div>-->
+
+<!--    <div class="col-lg-9 col-sm-7 d-none d-sm-inline-block col-12 pl-4">-->
+<!--        <strong class="pt-2" style="color:#0f1f40;font-size:1.2em;">Schedule email updates</strong>-->
+<!--    <p class="mt-2">Get your news delivered on your schedule. Have an email sent every day after you get to work, or once a week before you meet with your boss. You could even get updates on Saturday night, if you want to liven up the party.</p>-->
+
+<!--    </div>-->
+<!--    </div>-->
+
+<!--    <div class="row align-items-center"  style="margin-top:8em;">-->
+<!--    <div class="col-lg-9 col-sm-5 col-12">-->
+<!--        <strong class="pt-2" style="color:#0f1f40;font-size:1.2em;">Choose your news sources</strong>-->
+<!--    <p class="mt-2">Pick which sources you see stories from. You can even filter by category, so if you want to see pop culture stories from a certain website but without any of the political content, you can do that.</p>-->
+<!--    </div>-->
+<!--    <div class="col-lg-3 col-sm-7 col-12">-->
+<!--    <img class="img-responsive" src="{% static 'photos/sources2.png' %}" style="width:100%;max-width:150px;display:block;margin:auto">-->
+<!--    </div>-->
+<!--    </div>-->
+
+<!--    <div class="col-lg-6 col-12" style="margin-top:8rem;">-->
+
+<!--    <div class="col-12 ml-0 mr-0 pl-0 pr-0">-->
+<!--    <a class="btn btn-block new-btn" href="{% url 'index' %}" role="button">See an example</a>-->
+<!--    </div>-->
+<!--    <div class="col-12 ml-0 mr-0 pl-0 pr-0" style="margin-top:1rem;">-->
+<!--    <a class="btn btn-block btn-success" href="{% url 'signup' %}" role="button">Sign up</a>-->
+<!--    </div>-->
+
+<!--    </div>-->
+
+<!--    </div>-->

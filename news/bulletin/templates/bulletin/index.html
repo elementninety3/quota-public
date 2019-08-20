@@ -1,0 +1,181 @@
+{% extends "base_common.html" %}
+
+{% block title %}
+<title>Bulletyn</title>
+{% endblock %}
+
+{% block content %}
+
+<!--Container for overall news-->
+
+<div class="col-md-9" style="padding-left:50px;padding-right:50px;">
+
+
+<!--Top bar with date and time-->
+    
+{% load tz %}
+    
+<div class="topbar" width=50%>
+    <h4><span style="text-align:left">{% localtime on %}{{ date|date }}</span><span style="float:right">{{ time|time }}{% endlocaltime %} {{tz_name}} edition</span></h4>
+</div>
+
+
+{% if newformat %}
+
+<!--    Repeats for all categories-->
+    
+{% for catlist in newformat %}
+    
+<!--    Category header-->
+    
+    <div class="section-head">
+    <h2 class="header">{{ catlist.0.0.category }}</h2>
+    </div>
+
+<!--    Lead story title, tagline, image, etc. in large display format -->
+    
+    <h3 class="story-head"><a href="{{ catlist.0.0.story.leadlink }}" class="story-lead">{{ catlist.0.0.story.lead }}</a> ({{ catlist.0.0.story.keywords }})</h3>
+
+    <p class="top-story-tagline">{{ catlist.0.0.story.tagline }}</p>
+
+    <img src="{{ catlist.0.0.story.image }}" alt="" width="100%">
+
+    <p class="image_caption"><i>Source: {{ catlist.0.0.story.leadsource }}</i></p>
+
+    {% for relatedstory in catlist.0 %}
+
+    <p class="top_related_story"><a href="{{ relatedstory.link }}" class="related_link">{{ relatedstory.source }} | {{ relatedstory.title }}</a></p>
+
+    {% endfor %}
+    
+    <br>
+    
+<!--    Secondary stories laid out in grid format-->
+    
+    {% for storylist in catlist.1 %}
+    
+<!--    Secondary story containers-->
+    
+    <div class="secondary_story">
+    
+    {% if storylist.0 %}
+
+<!--        Secondary story title, tagline, image, etc.-->
+        
+    <h4><a href="{{ storylist.0.story.leadlink }}" class="story-lead">{{ storylist.0.story.lead }}</a> ({{ storylist.0.story.keywords }})</h4>
+
+    <p class="story-tagline">{{ storylist.0.story.tagline }}</p>
+
+    <img src="{{ storylist.0.story.image }}" alt="" width="100%">
+
+    <p class="image_caption">Source: {{ storylist.0.story.leadsource }}</p>
+
+        {% for relatedstory in storylist %}
+
+    <p class="related_story"><a href="{{ relatedstory.link }}" class="related_link">{{ relatedstory.source }} | {{ relatedstory.title }}</a></p>
+
+        {% endfor %}
+
+    {% else %}
+
+    {% endif %}
+        
+    <br>
+        
+    </div>
+
+    {% empty %}
+
+    {% endfor %}
+
+{% empty %}
+
+{% endfor %}
+
+{% else %}
+    <p>No items are available.</p>
+{% endif %}
+
+<br>
+
+<!--    Custom topics-->
+    
+<div class="section-head">
+    <h2 class="header">Your custom topics</h2>
+    </div>
+
+{% for topic in topiclist %}
+    
+<!--    Topic heading-->
+
+<h3 class="story-head">{{ topic.title }}</h3>
+
+{% for item in topic.items.all %}
+    
+<!--    Top 3 topic items-->
+
+<p class="topic-item"><a href="{{ item.link }}">{{ item.source }} | {{ item.title }}</a></p>
+
+{% empty %}
+
+<p class="topic-item"><i>No news items found for this topic.</i></p>
+
+{% endfor %}
+
+{% endfor %}
+
+    <br>
+    
+</div>
+
+<!--Widget container-->
+
+<div class="col-md-3" style="border:2px black;border-style:none none none solid">
+
+<h4>Stocks</h4>
+
+<!--    Table with stock prices for user's stocks-->
+    
+<table>
+    {% for i in stockprices %}
+    <tr>
+        <td>{{ i.ticker }}</td>
+        <td>${{ i.price }}</td>
+        {% if i.neg == 1 %}
+        <td style = "color: red">{{ i.change }}</td>
+        <td style = "color: red">({{ i.pctchange }}%)</td>
+        {% else %}
+        <td style = "color: green">+{{ i.change }}</td>
+        <td style = "color: green">(+{{ i.pctchange }}%)</td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+</table>
+
+<br>
+
+<h4>Weather</h4>
+
+<!--    Headline for weather in each city-->
+    
+<h5>{{ weather.0.city }}</h5>
+
+{% load static %}
+
+<!--    Table with weather for the city-->
+    
+<table>
+    {% for i in weather %}
+    <tr>
+        <td><strong>{{ i.day }}</strong></td>
+        <td>{{ i.summary }}</td>
+        <td><img src="/bulletin/static/icons/{{ i.icon }}.png" width="25px"></td>
+        <td><strong>H</strong> {{ i.high }}</td>
+        <td><strong>L</strong> {{ i.low }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+</div>
+
+{% endblock %} 

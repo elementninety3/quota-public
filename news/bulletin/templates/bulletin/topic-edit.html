@@ -1,0 +1,247 @@
+{% extends "base_common.html" %}
+
+{% block head %}
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/prefs-styles.css' %}">
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="d-none d-md-block row align-items-end topbar mt-2 mr-0 pr-0">
+<div class="col-10 ml-4 mb-0 mt-1">
+<h5 class="mb-1">Preferences</h5>
+</div>
+</div>
+
+<div class="d-md-none row align-items-start">
+<div class="col-12 mt-2 pl-4 pr-4">
+<div class="row align-items-start">
+    <div class="col-3">
+        <div class="mob-prefs-header">
+            <p class="mb-1"><a href="{% url 'preferences' %}" class="mob-pref-link">General</a></p>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="mob-prefs-header curr-mob-pref-page">
+            <p class="mb-1"><a href="#" class="mob-pref-link">Topics</a></p>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="mob-prefs-header">
+            <p class="mb-1"><a href="{% url 'sourceprefs' %}" class="mob-pref-link">Sources</a></p>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="mob-prefs-header">
+            <p class="mb-1"><a href="{% url 'widgetprefs' %}" class="mob-pref-link">Widgets</a></p>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+
+
+<div class="prefs-container">
+
+<div class="d-none d-md-flex row align-items-start prefs-topbar mt-2">
+    <div class="col-3 justify-items-center">
+        <div class="prefs-header">
+            <h3><a href="#" class="pref-link">General</a></h3>
+        </div>
+    </div>
+    <div class="col-3 justify-items-center">
+        <div class="prefs-header curr-pref-page">
+            <h3><a href="{% url 'topicprefs' %}" class="pref-link">Custom topics</a></h3>
+        </div>
+    </div>
+    <div class="col-3 justify-items-center">
+        <div class="prefs-header">
+            <h3><a href="{% url 'sourceprefs' %}" class="pref-link">Sources</a></h3>
+        </div>
+    </div>
+    <div class="col-3 justify-items-center">
+        <div class="prefs-header">
+            <h3><a href="{% url 'widgetprefs' %}" class="pref-link">Widgets</a></h3>
+        </div>
+    </div>
+</div>
+
+
+{% if topicwarn %}
+
+</div>
+
+<div class="col-12 bg-danger pt-3 pb-1">
+    <p class="text-white"><strong>Warning:</strong> You have custom topics disabled in your category preferences.This means your custom topics will not show up on the home page or in your daily emails.</p>
+    <p class="text-white">To turn custom topics on, go to the <a class="text-light" href="{% url 'preferences' %}#categories">category preferences</a> page.</p>
+</div>
+
+<div class="prefs-container">
+
+{% else %}
+{% endif %}
+
+<br>
+
+<div class="row align-items-start">
+<div class="col-md-8 col-12" style="border:2px black;border-style:none solid none none;">
+
+<h3 class="story-head"><strong>Enter a new topic below:</strong></h3>
+
+<br>
+
+<form action="" method="post">
+{% csrf_token %}
+<div class="row align-items-start">
+<div class="col-4">
+<p>Topic name:</p>
+<div class="mt-2">
+{{ form.title }}
+</div>
+</div>
+<div class="col-4">
+<div class="row align-items-start">
+<div class="col-8" style="text-align:left">Keywords:</div>
+<div class="col-4 prefs-button">
+    <button class="btn btn-success add-form-row">Add keyword</button>
+</div>
+</div>
+{{ formset.management_form }}
+{% for form in formset %}
+<div class="row form-row mt-2 align-items-start">
+<div class="col-10">
+{{ form.keyword }}
+</div>
+<div class="col-2">
+    <button class="btn btn-danger remove-form-row" name="buttonname">-</button>
+</div>
+</div>
+{% endfor %}
+</div>
+<div class="col-4">
+<p class="category-list">Categories to search:</p>
+    <div class="source-form">
+        {{ form.categories }}
+    </div>
+</div>
+</div>
+<div class="row spacer">
+    <div class="prefs-button ml-3 mr-3">
+        <button type="cancel" class="btn btn-block cancel-btn">Cancel</button>
+    </div>
+    <div class="prefs-button ml-3">
+        <button type="submit" class="btn btn-block new-btn">Save my topic</button>
+    </div>
+</div>
+</form>
+
+<script>
+
+function changeButtons() {
+    var conditionRow = $('.form-row:not(:last)');
+    conditionRow.find('.btn.add-form-row')
+    .removeClass('btn-success').addClass('btn-danger')
+    .removeClass('add-form-row').addClass('remove-form-row')
+    .html('<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>');
+    return false;
+}
+
+function updateElementIndex(el, prefix, ndx) {
+    var id_regex = new RegExp('(' + prefix + '-\\d+)');
+    var replacement = prefix + '-' + ndx;
+    if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex, replacement));
+    if (el.id) el.id = el.id.replace(id_regex, replacement);
+    if (el.name) el.name = el.name.replace(id_regex, replacement);
+}
+function cloneMore(selector, prefix) {
+    var newElement = $(selector).clone(true);
+    var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
+    newElement.find(':input').each(function() {
+        var name = $(this).attr('name').replace('-' + (total-1) + '-', '-' + total + '-');
+        var id = 'id_' + name;
+        $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+    });
+    total++;
+    $('#id_' + prefix + '-TOTAL_FORMS').val(total);
+    $(selector).after(newElement)
+    var conditionRow = $('.form-row:not(:last)');
+    return false;
+}
+function deleteForm(prefix, btn) {
+    var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+    if (total > 1){
+        btn.closest('.form-row').remove();
+        var forms = $('.form-row');
+        $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+        for (var i=0, formCount=forms.length; i<formCount; i++) {
+            $(forms.get(i)).find(':input').each(function() {
+                updateElementIndex(this, prefix, i);
+            });
+        }
+    }
+    return false;
+}
+$(document).on('click', '.add-form-row', function(e){
+    e.preventDefault();
+    cloneMore('.form-row:last', 'form');
+    return false;
+});
+$(document).on('click', '.remove-form-row', function(e){
+    e.preventDefault();
+    deleteForm('form', $(this));
+    return false;
+});
+
+</script>
+
+
+<br>
+
+<p>Enter your keywords into the keyword field, separating them with semicolons</p>
+<p><i>Example: "Abraham Lincoln; President Lincoln; 16th President"</i></p>
+
+<br>
+
+</div>
+
+<div class="col-md-4 col-12 pl-5">
+
+<h3 class="story-head"><strong>Your current topics:</strong></h3>
+<br>
+
+{% for topic in usertopics %}
+
+<div class="row align-items-middle">
+<div class="col-8">
+<p class="topic-name">{{ topic.title }}</p>
+</div>
+<div class="col-1 mr-2">
+<a class="topic-name" href="{{ topic.get_absolute_url }}">Edit</a>
+</div>
+<div class="col-1">
+<a href="{{ topic.get_delete_url }}" class="btn btn-danger" role="button">-</a>
+</div>
+</div>
+{% empty %}
+<p><i>No current topics to display</i></p>
+{% endfor %}
+</ul>
+</div>
+
+
+<br>
+
+
+</div>
+</div>
+
+<br>
+
+{% endblock %}
